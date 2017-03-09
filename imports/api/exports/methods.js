@@ -2,6 +2,7 @@ import { UserRouteLog } from './exports.js';
 import { UserRoute } from './exports.js';
 import { UserFeedback } from './exports.js';
 import { OptimumUsers } from './exports.js';
+import { OptimumMessages } from './exports.js';
 
 Meteor.methods({ 
     userRouteLogCount: function() {
@@ -97,5 +98,25 @@ Meteor.methods({
     personalityOpenness: function() {
         let personalityOpenness = OptimumUsers.find({"personality.typeStr" : "Openness"}).count();        
         return personalityOpenness;
+    },
+
+    ownsCar: function() {
+        let ownsCar = OptimumUsers.find({'owned_vehicles': {$elemMatch: {'type':'car'}}}).count();        
+        return ownsCar;
+    },
+
+    ownsBicycle: function() {
+        let ownsBicycle = OptimumUsers.find({'owned_vehicles': {$elemMatch: {'type':'bicycle'}}}).count();        
+        return ownsBicycle;
+    },
+
+    ownsMotorcycle: function() {
+        let ownsMotorcycle = OptimumUsers.find({'owned_vehicles': {$elemMatch: {'type':'motorcycle'}}}).count();        
+        return ownsMotorcycle;
+    },
+
+    numberOfMessages: function() {
+        let numberOfMessages = OptimumMessages.find().count();        
+        return numberOfMessages;
     }
 });

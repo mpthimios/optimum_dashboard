@@ -22,3 +22,5 @@ insecure@1.0.7                # Allow all DB writes from clients (for prototypin
 mizzao:bootstrap-3
 session
 chart:chart
+meteorhacks:aggregate
+random

@@ -16,3 +16,9 @@ export const UserFeedback = new Mongo.Collection("UserFeedback", {
     idGeneration: 'MONGO'
 });
 
+export const OptimumMessages = new Mongo.Collection("OptimumMessages", { 
+    idGeneration: 'MONGO'
+});
+
+export const UserRouteLogGraph = new Mongo.Collection('UserRouteLogGraph');
+
