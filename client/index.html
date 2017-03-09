@@ -1,0 +1,461 @@
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Optimum Multimodal Dashboard</title>
+
+    <!-- Custom Theme Style -->
+    <link href="css/custom.min.css" rel="stylesheet">
+  </head>
+
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        <div class="col-md-3 left_col">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+              <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Optimum Multimodal Dashboard</span></a>
+            </div>
+
+            <div class="clearfix"></div>
+
+            {{>profileMenu}}
+
+            <br />
+
+            {{>sidebarMenu}}
+            
+
+            <!-- /menu footer buttons -->
+            <div class="sidebar-footer hidden-small">
+              <a data-toggle="tooltip" data-placement="top" title="Settings">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Lock">
+                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+              </a>
+            </div>
+            <!-- /menu footer buttons -->
+          </div>
+        </div>
+
+        {{> topNavigation}}
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+
+        {{> topTiles}}
+
+        {{> charts}}
+
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer>
+          <div class="pull-right">
+            Powered by Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+      </div>
+    </div>	
+  </body>
+
+ <!-- top tiles -->
+          <template name="topTiles">
+            <div class="row tile_count">
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Total Users</span>
+                <div class="count">{{userCount}}</div>
+                <!--span class="count_bottom"><i class="green">5% </i> From last Week</span-->
+              </div>
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-clock-o"></i> Total Requests</span>
+                <div class="count">{{getUserRouteLogCount}}</div>
+                <!--span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> From last Week</span-->
+              </div>
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Total Saved Routes</span>
+                <div class="count green">{{getUserRouteCount}}</div>
+                <!--span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span-->
+              </div>
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Total User Ratings</span>
+                <div class="count">{{getUserRatingsCount}}</div>
+                <!--span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span-->
+              </div>
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Total Helpful Messages</span>
+                <div class="count">{{getHelpfulMessages}}</div>
+                <!--span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span-->
+              </div>
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Total Not Helpful Messages</span>
+                <div class="count">{{getNotHelpfulMessages}}</div>
+                <!--span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span-->
+              </div>
+            </div>
+
+            <div class="row tile_count">
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Preferred mode: CAR</span>
+                <div class="count">{{getPreferredModeCar}}</div>
+                <!--span class="count_bottom"><i class="green">5% </i> From last Week</span-->
+              </div>
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-clock-o"></i> Preferred mode: PT</span>
+                <div class="count">{{getPreferredModePT}}</div>
+                <!--span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> From last Week</span-->
+              </div>
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Preferred mode: BICYCLE</span>
+                <div class="count green">{{getPreferredModeBICYCLE}}</div>
+                <!--span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span-->
+              </div>
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Preferred mode: WALK</span>
+                <div class="count">{{getPreferredModeWALK}}</div>
+                <!--span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span-->
+              </div>
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Male Users </span>
+                <div class="count">{{getMaleUsers}}</div>
+                <!--span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span-->
+              </div>
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Female Users </span>
+                <div class="count">{{getFemaleUsers}}</div>
+                <!--span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span-->
+              </div>
+            </div>
+
+            <div class="row tile_count">
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Language: en</span>
+                <div class="count">{{getLanguageENusers}}</div>
+                <!--span class="count_bottom"><i class="green">5% </i> From last Week</span-->
+              </div>
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-clock-o"></i> Language: de</span>
+                <div class="count">{{getLanguageDEusers}}</div>
+                <!--span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> From last Week</span-->
+              </div>
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Language: sl</span>
+                <div class="count green">{{getLanguageSLusers}}</div>
+                <!--span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span-->
+              </div>
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> ?? </span>
+                <div class="count">{{getPreferredModeWALK}}</div>
+                <!--span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span-->
+              </div>
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> ?? </span>
+                <div class="count">{{getMaleUsers}}</div>
+                <!--span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span-->
+              </div>
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> ?? </span>
+                <div class="count">{{getFemaleUsers}}</div>
+                <!--span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span-->
+              </div>
+            </div>
+
+            <div class="row tile_count">
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Personality: Conscientiousness</span>
+                <div class="count">{{getPersonalityConscientiousness}}</div>
+                <!--span class="count_bottom"><i class="green">5% </i> From last Week</span-->
+              </div>
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-clock-o"></i> Personality: Neuroticism</span>
+                <div class="count">{{getPersonalityNeuroticism}}</div>
+                <!--span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> From last Week</span-->
+              </div>
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Personality: Openess </span>
+                <div class="count green">{{getPersonalityOpenness}}</div>
+                <!--span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span-->
+              </div>
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Personality: Extraversion </span>
+                <div class="count">{{getPersonalityExtraversion}}</div>
+                <!--span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span-->
+              </div>
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Personality: Agreeableness </span>
+                <div class="count">{{getPersonalityAgreeableness}}</div>
+                <!--span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span-->
+              </div>
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> ?? </span>
+                <div class="count">{{getFemaleUsers}}</div>
+                <!--span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span-->
+              </div>
+            </div>
+          </template>
+          <!-- /top tiles -->
+
+          <template name="sidebarMenu">
+              <!-- sidebar menu -->
+              <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                <!--
+                <div class="menu_section">
+                  
+                  <h3>General</h3>
+                  <ul class="nav side-menu">
+                    <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="index.html">Dashboard</a></li>
+                        <li><a href="index2.html">Dashboard2</a></li>
+                        <li><a href="index3.html">Dashboard3</a></li>
+                      </ul>
+                    </li>
+                    <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="form.html">General Form</a></li>
+                        <li><a href="form_advanced.html">Advanced Components</a></li>
+                        <li><a href="form_validation.html">Form Validation</a></li>
+                        <li><a href="form_wizards.html">Form Wizard</a></li>
+                        <li><a href="form_upload.html">Form Upload</a></li>
+                        <li><a href="form_buttons.html">Form Buttons</a></li>
+                      </ul>
+                    </li>
+                    <li><a><i class="fa fa-desktop"></i> UI Elements <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="general_elements.html">General Elements</a></li>
+                        <li><a href="media_gallery.html">Media Gallery</a></li>
+                        <li><a href="typography.html">Typography</a></li>
+                        <li><a href="icons.html">Icons</a></li>
+                        <li><a href="glyphicons.html">Glyphicons</a></li>
+                        <li><a href="widgets.html">Widgets</a></li>
+                        <li><a href="invoice.html">Invoice</a></li>
+                        <li><a href="inbox.html">Inbox</a></li>
+                        <li><a href="calendar.html">Calendar</a></li>
+                      </ul>
+                    </li>
+                    <li><a><i class="fa fa-table"></i> Tables <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="tables.html">Tables</a></li>
+                        <li><a href="tables_dynamic.html">Table Dynamic</a></li>
+                      </ul>
+                    </li>
+                    <li><a><i class="fa fa-bar-chart-o"></i> Data Presentation <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="chartjs.html">Chart JS</a></li>
+                        <li><a href="chartjs2.html">Chart JS2</a></li>
+                        <li><a href="morisjs.html">Moris JS</a></li>
+                        <li><a href="echarts.html">ECharts</a></li>
+                        <li><a href="other_charts.html">Other Charts</a></li>
+                      </ul>
+                    </li>
+                    <li><a><i class="fa fa-clone"></i>Layouts <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="fixed_sidebar.html">Fixed Sidebar</a></li>
+                        <li><a href="fixed_footer.html">Fixed Footer</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+                <div class="menu_section">
+                  <h3>Live On</h3>
+                  <ul class="nav side-menu">
+                    <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="e_commerce.html">E-commerce</a></li>
+                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="project_detail.html">Project Detail</a></li>
+                        <li><a href="contacts.html">Contacts</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                      </ul>
+                    </li>
+                    <li><a><i class="fa fa-windows"></i> Extras <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="page_403.html">403 Error</a></li>
+                        <li><a href="page_404.html">404 Error</a></li>
+                        <li><a href="page_500.html">500 Error</a></li>
+                        <li><a href="plain_page.html">Plain Page</a></li>
+                        <li><a href="login.html">Login Page</a></li>
+                        <li><a href="pricing_tables.html">Pricing Tables</a></li>
+                      </ul>
+                    </li>
+                    <li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                          <li><a href="#level1_1">Level One</a>
+                          </li>
+                          <li><a>Level One<span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                              <li class="sub_menu"><a href="level2.html">Level Two</a>
+                              </li>
+                              <li><a href="#level2_1">Level Two</a>
+                              </li>
+                              <li><a href="#level2_2">Level Two</a>
+                              </li>
+                            </ul>
+                          </li>
+                          <li><a href="#level1_2">Level One</a>
+                          </li>
+                      </ul>
+                    </li>                  
+                    <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
+                  </ul>
+                </div>
+              -->
+              </div>
+              <!-- /sidebar menu -->
+          </template>
+
+          <template name="profileMenu">
+            <!-- menu profile quick info -->
+            <div class="profile clearfix">
+              <!--div class="profile_pic">
+                <img src="images/img.jpg" alt="..." class="img-circle profile_img">
+              </div-->
+              <div class="profile_info">
+                <span>Welcome to the Multimodal Optimum Dashboard</span>
+                <!--h2>User</h2-->
+              </div>
+            </div>
+            <!-- /menu profile quick info -->
+          </template>
+
+          <template name="topNavigation">
+            <!-- top navigation -->
+            <div class="top_nav">
+              <div class="nav_menu">
+                <nav>
+                  <div class="nav toggle">
+                    <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                  </div>
+                  <!--
+                  <ul class="nav navbar-nav navbar-right">
+                    <li class="">
+                      <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <img src="images/img.jpg" alt="">John Doe
+                        <span class=" fa fa-angle-down"></span>
+                      </a>
+                      <ul class="dropdown-menu dropdown-usermenu pull-right">
+                        <li><a href="javascript:;"> Profile</a></li>
+                        <li>
+                          <a href="javascript:;">
+                            <span class="badge bg-red pull-right">50%</span>
+                            <span>Settings</span>
+                          </a>
+                        </li>
+                        <li><a href="javascript:;">Help</a></li>
+                        <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                      </ul>
+                    </li>
+
+                    <li role="presentation" class="dropdown">
+                      <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-envelope-o"></i>
+                        <span class="badge bg-green">6</span>
+                      </a>
+                      <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                        <li>
+                          <a>
+                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                            <span>
+                              <span>John Smith</span>
+                              <span class="time">3 mins ago</span>
+                            </span>
+                            <span class="message">
+                              Film festivals used to be do-or-die moments for movie makers. They were where...
+                            </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a>
+                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                            <span>
+                              <span>John Smith</span>
+                              <span class="time">3 mins ago</span>
+                            </span>
+                            <span class="message">
+                              Film festivals used to be do-or-die moments for movie makers. They were where...
+                            </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a>
+                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                            <span>
+                              <span>John Smith</span>
+                              <span class="time">3 mins ago</span>
+                            </span>
+                            <span class="message">
+                              Film festivals used to be do-or-die moments for movie makers. They were where...
+                            </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a>
+                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                            <span>
+                              <span>John Smith</span>
+                              <span class="time">3 mins ago</span>
+                            </span>
+                            <span class="message">
+                              Film festivals used to be do-or-die moments for movie makers. They were where...
+                            </span>
+                          </a>
+                        </li>
+                        <li>
+                          <div class="text-center">
+                            <a>
+                              <strong>See All Alerts</strong>
+                              <i class="fa fa-angle-right"></i>
+                            </a>
+                          </div>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                -->
+                </nav>
+              </div>
+            </div>
+            <!-- /top navigation -->
+          </template>
+
+
+          <template name="charts">
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="dashboard_graph">
+
+                  <div class="row x_title">
+                    <div class="col-md-6">
+                      <h3>Network Activities <small>Graph title sub-title</small></h3>
+                    </div>
+                    <div class="col-md-6">
+                      <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                        <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                  <div id="placeholder33" style="height: 200px; display: none" class="demo-placeholder"></div>
+                  <div style="width: 100%;">
+                    <canvas id="myChart" width="800" height="200"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>                        
+          </template>
