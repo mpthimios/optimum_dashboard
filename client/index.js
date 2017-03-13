@@ -44,6 +44,8 @@ Session.setDefault("ownsCar", null);
 Session.setDefault("ownsBicycle", null);
 Session.setDefault("ownsMotorcycle", null);
 Session.setDefault("numberOfMessages", null);
+Session.setDefault("numberOfEventNotifications", null);
+Session.setDefault("numberOfNotifiedUsers", null);
 
 Template.topTiles.onCreated(function() {
 
@@ -160,6 +162,14 @@ Template.topTiles.onCreated(function() {
         Session.set("numberOfMessages", res);
     });
 
+    Meteor.call("numberOfEventNotifications", function(err, res) {
+        Session.set("numberOfEventNotifications", res);        
+    });
+
+    Meteor.call("numberOfNotifiedUsers", function(err, res) {
+        Session.set("numberOfNotifiedUsers", res);        
+    });    
+
 });
 
 Template.topTiles.helpers({
@@ -235,6 +245,12 @@ Template.topTiles.helpers({
     },
     getNumberOfMessages() {
         return Session.get("numberOfMessages");
+    },
+    getNumberOfEventNotifications() {
+        return Session.get("numberOfEventNotifications");
+    },
+    getNumberOfNotifiedUsers() {
+        return Session.get("numberOfNotifiedUsers");
     }
 
 });

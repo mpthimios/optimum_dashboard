@@ -3,6 +3,7 @@ import { UserRoute } from './exports.js';
 import { UserFeedback } from './exports.js';
 import { OptimumUsers } from './exports.js';
 import { OptimumMessages } from './exports.js';
+import { EventNotifications } from './exports.js';
 
 Meteor.methods({ 
     userRouteLogCount: function() {
@@ -118,5 +119,25 @@ Meteor.methods({
     numberOfMessages: function() {
         let numberOfMessages = OptimumMessages.find().count();        
         return numberOfMessages;
+    },
+
+    numberOfEventNotifications: function() {
+        let numberOfEventNotifications = EventNotifications.find().count();        
+        return numberOfEventNotifications;
+    },
+
+    numberOfNotifiedUsers: function() {
+        let numberOfNotifiedUsers = EventNotifications.aggregate([
+            {$unwind: "$affected_users"},
+            {$group: {_id: null, number: {$sum: 1 }}}
+          ]);
+        if (numberOfNotifiedUsers.length == 0){
+            console.log(0);
+            return numberOfNotifiedUsers;
+        }
+        else{
+            console.log(numberOfNotifiedUsers[0].number);
+            return numberOfNotifiedUsers[0].number;
+        }        
     }
 });

@@ -20,5 +20,8 @@ export const OptimumMessages = new Mongo.Collection("OptimumMessages", {
     idGeneration: 'MONGO'
 });
 
-export const UserRouteLogGraph = new Mongo.Collection('UserRouteLogGraph');
+export const EventNotifications = new Mongo.Collection("EventNotifications", { 
+    idGeneration: 'MONGO'
+});
 
+export const UserRouteLogGraph = new Mongo.Collection('UserRouteLogGraph');
