@@ -371,7 +371,7 @@ function createRequestsChart() {
         var points = [];
 
         _.forEach(dataset, function(point){
-            labels.push(point.date.getDate() + "-" + point.date.getMonth() + "-" + point.date.getFullYear());
+            labels.push(point.date.getDate() + "-" + (point.date.getMonth()+1) + "-" + point.date.getFullYear());
             points.push(point.count);
         });
         
@@ -415,7 +415,7 @@ function updateRequestsChart(start, end){
     _.forEach(dataset, function(point){
         console.log(new Date(point.date));
         console.log(point.date);
-        labels.push(point.date.getDate() + "-" + point.date.getMonth() + "-" + point.date.getFullYear());
+        labels.push(point.date.getDate() + "-" + (point.date.getMonth()+1) + "-" + point.date.getFullYear());
         points.push(point.count);
     });
     
