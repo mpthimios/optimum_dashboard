@@ -110,6 +110,16 @@
             </div>
 
             <div class="row tile_count">
+              {{#each arrayify getRequestsByCountry}}
+                 <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                  <span class="count_top"><i class="fa fa-user"></i> # of Requests from: {{name}}</span>
+                  <div class="count">{{value}}</div>
+                  <!--span class="count_bottom"><i class="green">5% </i> From last Week</span-->
+                </div>                    
+              {{/each}}              
+            </div>
+
+            <div class="row tile_count">
               <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
                 <span class="count_top"><i class="fa fa-user"></i> Preferred mode: CAR</span>
                 <div class="count">{{getPreferredModeCar}}</div>

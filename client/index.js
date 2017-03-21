@@ -47,6 +47,7 @@ Session.setDefault("ownsMotorcycle", null);
 Session.setDefault("numberOfMessages", null);
 Session.setDefault("numberOfEventNotifications", null);
 Session.setDefault("numberOfNotifiedUsers", null);
+Session.setDefault("getRequestsByCountry", null);        
 
 var optionSet1 = {
   startDate: moment().subtract(29, 'days'),
@@ -172,7 +173,9 @@ var updateData = function(start, end){
     Meteor.call("numberOfNotifiedUsers", start, end, function(err, res) {
         Session.set("numberOfNotifiedUsers", res);        
     });    
-
+    Meteor.call("getRequestsByCountry", start, end, function(err, res) {
+        Session.set("getRequestsByCountry", res);        
+    });        
     updateRequestsChart(start, end);
    
 }
@@ -287,8 +290,17 @@ Template.topTiles.helpers({
     },
     getNumberOfNotifiedUsers() {
         return Session.get("numberOfNotifiedUsers");
+    },
+    getRequestsByCountry() {
+        return Session.get("getRequestsByCountry");
     }
 
+});
+
+Template.registerHelper('arrayify',function(obj){
+    var result = [];
+    for (var key in obj) result.push({name:key,value:obj[key]});
+    return result;
 });
 
 var myLineChart = null;
@@ -393,8 +405,7 @@ function createRequestsChart() {
     myLineChart = new Chart(ctx).Line(data, chartOptions);
 };
 
-function updateRequestsChart(start, end){
-    console.log("updateRequestsChart");
+function updateRequestsChart(start, end){    
     var dataset = null;
     if (start != null && end !=null){
         dataset = UserRouteLogGraph.find({'date' : { $gte : new Date(start), $lt: new Date(end) }}).fetch();
@@ -413,8 +424,6 @@ function updateRequestsChart(start, end){
     var points = [];
     console.log(dataset);
     _.forEach(dataset, function(point){
-        console.log(new Date(point.date));
-        console.log(point.date);
         labels.push(point.date.getDate() + "-" + (point.date.getMonth()+1) + "-" + point.date.getFullYear());
         points.push(point.count);
     });

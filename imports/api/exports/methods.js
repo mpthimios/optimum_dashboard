@@ -5,6 +5,9 @@ import { OptimumUsers } from './exports.js';
 import { OptimumMessages } from './exports.js';
 import { EventNotifications } from './exports.js';
 import { UserTrip } from './exports.js';
+//import { wc } from 'which-country';
+const wc = require('which-country')
+
 
 Meteor.methods({ 
     userCount: function(start, end){        
@@ -298,5 +301,43 @@ Meteor.methods({
             console.log(numberOfNotifiedUsers[0].number);
             return numberOfNotifiedUsers[0].number;
         }        
+    },
+
+    getRequestsByCountry: function(start, end){
+        console.log("getRequestsByCountry");
+        let requestsByCountry  =null;
+        if (start != null && end !=null){
+            console.log("1");
+            requestsByCountry = UserRouteLog.find({ 'createdDate' : { $gte : new Date(start), $lt: new Date(end) }},
+                {fields: {'originalResults.request.from.coordinate.geometry.coordinates':1}}).fetch();
+        }
+        else if (start != null){
+            console.log("2");
+            requestsByCountry = UserRouteLog.find({ 'createdDate' : { $gte : new Date(start)}},
+                {fields: {'originalResults.request.from.coordinate.geometry.coordinates':1}}).fetch();
+        }
+        else if (end !=null){
+            console.log("3");
+            requestsByCountry = UserRouteLog.find({ 'createdDate' : { $lt: new Date(end) }},
+                {fields: {'originalResults.request.from.coordinate.geometry.coordinates':1}}).fetch();
+        }
+        else{
+            console.log("4");
+            requestsByCountry = UserRouteLog.find({}, {fields: {'originalResults.request.from.coordinate.geometry.coordinates':1}}).fetch();
+        }
+        console.log("requestsByCountry");
+        //console.log(requestsByCountry);
+        let requestsPerCountry = {};
+         _.forEach(requestsByCountry, function(point){
+            let country = wc(point.originalResults.request.from.coordinate.geometry.coordinates)
+            if (country in requestsPerCountry){
+                requestsPerCountry[country] = requestsPerCountry[country] + 1;
+            }
+            else{
+                requestsPerCountry[country] = 1
+            }            
+        });
+        console.log(requestsPerCountry);
+        return requestsPerCountry;
     }
 });
