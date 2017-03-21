@@ -21,6 +21,7 @@ import { UserRouteLogGraph } from '../imports/api/exports/exports.js';
 //  //    });
 // });
  
+Session.setDefault("userCount", null);
 Session.setDefault("userRouteLogCount", null);
 Session.setDefault("userRouteCount", null);
 Session.setDefault("userRatingsCount", null);
@@ -47,6 +48,136 @@ Session.setDefault("numberOfMessages", null);
 Session.setDefault("numberOfEventNotifications", null);
 Session.setDefault("numberOfNotifiedUsers", null);
 
+var optionSet1 = {
+  startDate: moment().subtract(29, 'days'),
+  endDate: moment(),
+  minDate: new Date('01/01/2016'),
+  maxDate: new Date('12/12/2017'),
+  dateLimit: {
+    days: 720
+  },
+  showDropdowns: true,
+  showWeekNumbers: true,
+  timePicker: false,
+  timePickerIncrement: 1,
+  timePicker12Hour: true,
+  ranges: {
+    'Today': [moment(), moment()],
+    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+    'This Month': [moment().startOf('month'), moment().endOf('month')],
+    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+  },
+  opens: 'left',
+  buttonClasses: ['btn btn-default'],
+  applyClass: 'btn-small btn-primary',
+  cancelClass: 'btn-small',
+  format: 'MM/DD/YYYY',
+  separator: ' to ',
+  locale: {
+    applyLabel: 'Submit',
+    cancelLabel: 'Clear',
+    fromLabel: 'From',
+    toLabel: 'To',
+    customRangeLabel: 'Custom',
+    daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    firstDay: 1
+  }
+};
+
+var cb = function(start, end, label) {
+  console.log(start.toISOString(), end.toISOString(), label);
+  updateData(start.toISOString(), end.toISOString());
+  $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+};
+
+var updateData = function(start, end){
+    Meteor.call("userCount", start, end, function(err, res) {
+        Session.set("userCount", res);
+    });
+    Meteor.call("userRouteLogCount", start, end, function(err, res) {
+        Session.set("userRouteLogCount", res);
+    });
+    Meteor.call("userRouteSavedRoutesCount", start, end, function(err, res) {
+        Session.set("userRouteSavedRoutesCount", res);
+    });
+    Meteor.call("userRatingsCount", function(err, res) {
+        Session.set("userRatingsCount", res);
+    });
+    Meteor.call("preferredMode", start, end, "1", function(err, res) {
+        Session.set("preferredModeCar", res);
+    });
+    Meteor.call("preferredMode", start, end, "2", function(err, res) {
+        Session.set("preferredModePT", res);
+    });
+    Meteor.call("preferredMode", start, end, "3", function(err, res) {
+        Session.set("preferredModeBICYCLE", res);
+    });   
+    Meteor.call("preferredMode", start, end, "4", function(err, res) {
+        Session.set("preferredModeWALK", res);
+    });
+    Meteor.call("helpfulMessages", start, end, function(err, res) {
+        Session.set("helpfulMessages", res);
+    });
+    Meteor.call("notHelpfulMessages", start, end, function(err, res) {
+        Session.set("notHelpfulMessages", res);
+    });
+    Meteor.call("femaleUsers", start, end, function(err, res) {
+        Session.set("femaleUsers", res);
+    }); 
+    Meteor.call("maleUsers", start, end, function(err, res) {
+        Session.set("maleUsers", res);
+    });
+    Meteor.call("languageUsers", start, end, "en", function(err, res) {
+        Session.set("languageENusers", res);
+    });
+    Meteor.call("languageUsers", start, end, "de", function(err, res) {
+        Session.set("languageDEusers", res);
+    });
+    Meteor.call("languageUsers", start, end, "sl", function(err, res) {
+        Session.set("languageSLusers", res);
+    });
+    Meteor.call("personalityType", start, end, "Extraversion", function(err, res) {
+        Session.set("personalityExtraversion", res);
+    });
+    Meteor.call("personalityType", start, end, "Agreeableness", function(err, res) {
+        Session.set("personalityConscientiousness", res);
+    });
+    Meteor.call("personalityType", start, end, "Conscientiousness", function(err, res) {
+        Session.set("personalityNeuroticism", res);
+    });
+    Meteor.call("personalityType", start, end, "Neuroticism", function(err, res) {
+        Session.set("personalityOpenness", res);
+    });
+    Meteor.call("personalityType", start, end, "Openness", function(err, res) {
+        Session.set("personalityAgreeableness", res);
+    });
+    Meteor.call("vehicleOwners", start, end, "car", function(err, res) {
+        Session.set("ownsCar", res);
+    });
+    Meteor.call("vehicleOwners", start, end, "bicycle", function(err, res) {
+        Session.set("ownsBicycle", res);
+    });
+    Meteor.call("vehicleOwners", start, end, "motorcycle", function(err, res) {
+        Session.set("ownsMotorcycle", res);
+    });
+    Meteor.call("numberOfMessages", function(err, res) {
+        Session.set("numberOfMessages", res);
+    });
+    Meteor.call("numberOfEventNotifications", start, end, function(err, res) {
+        Session.set("numberOfEventNotifications", res);        
+    });
+    Meteor.call("numberOfNotifiedUsers", start, end, function(err, res) {
+        Session.set("numberOfNotifiedUsers", res);        
+    });    
+
+    updateRequestsChart(start, end);
+   
+}
+
+
 Template.topTiles.onCreated(function() {
 
 	let self = this;
@@ -66,122 +197,24 @@ Template.topTiles.onCreated(function() {
             }
         },
         onReady: function(e) {
-            updateRequestsChart();
+            createRequestsChart();
+            $('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+            $('#reportrange').daterangepicker(optionSet1, cb);
+            updateData(null, null);
         },
     });
-
-    Meteor.call("userRouteLogCount", function(err, res) {
-        Session.set("userRouteLogCount", res);
-    });
-
-    Meteor.call("userRouteCount", function(err, res) {
-        Session.set("userRouteCount", res);
-    });
-
-    Meteor.call("userRatingsCount", function(err, res) {
-        Session.set("userRatingsCount", res);
-    });
-
-    Meteor.call("helpfulMessages", function(err, res) {
-        Session.set("helpfulMessages", res);
-    });
-
-    Meteor.call("notHelpfulMessages", function(err, res) {
-        Session.set("notHelpfulMessages", res);
-    });
-
-    Meteor.call("preferredModeCar", function(err, res) {
-        Session.set("preferredModeCar", res);
-    });
-
-    Meteor.call("preferredModePT", function(err, res) {
-        Session.set("preferredModePT", res);
-    });
-
-    Meteor.call("preferredModeBICYCLE", function(err, res) {
-        Session.set("preferredModeBICYCLE", res);
-    });   
-
-    Meteor.call("preferredModeWALK", function(err, res) {
-        Session.set("preferredModeWALK", res);
-    });     
-
-    Meteor.call("femaleUsers", function(err, res) {
-        Session.set("femaleUsers", res);
-    }); 
     
-    Meteor.call("maleUsers", function(err, res) {
-        Session.set("maleUsers", res);
-    });
-
-    Meteor.call("languageENusers", function(err, res) {
-        Session.set("languageENusers", res);
-    });
-
-    Meteor.call("languageDEusers", function(err, res) {
-        Session.set("languageDEusers", res);
-    });
-
-    Meteor.call("languageSLusers", function(err, res) {
-        Session.set("languageSLusers", res);
-    });
-
-    Meteor.call("personalityExtraversion", function(err, res) {
-        Session.set("personalityExtraversion", res);
-    });
-
-    Meteor.call("personalityConscientiousness", function(err, res) {
-        Session.set("personalityConscientiousness", res);
-    });
-
-    Meteor.call("personalityNeuroticism", function(err, res) {
-        Session.set("personalityNeuroticism", res);
-    });
-
-    Meteor.call("personalityOpenness", function(err, res) {
-        Session.set("personalityOpenness", res);
-    });
-
-    Meteor.call("personalityAgreeableness", function(err, res) {
-        Session.set("personalityAgreeableness", res);
-    });
-
-    Meteor.call("ownsCar", function(err, res) {
-        Session.set("ownsCar", res);
-    });
-
-    Meteor.call("ownsBicycle", function(err, res) {
-        Session.set("ownsBicycle", res);
-    });
-
-    Meteor.call("ownsMotorcycle", function(err, res) {
-        Session.set("ownsMotorcycle", res);
-    });
-
-    Meteor.call("numberOfMessages", function(err, res) {
-        Session.set("numberOfMessages", res);
-    });
-
-    Meteor.call("numberOfEventNotifications", function(err, res) {
-        Session.set("numberOfEventNotifications", res);        
-    });
-
-    Meteor.call("numberOfNotifiedUsers", function(err, res) {
-        Session.set("numberOfNotifiedUsers", res);        
-    });    
-
 });
 
 Template.topTiles.helpers({
-	userCount() {
-		let u = OptimumUsers.find().fetch();		
-		return OptimumUsers.find().count();
+	getUserCount() {
+		return Session.get("userCount");        
 	},
 	getUserRouteLogCount() {
 		return Session.get("userRouteLogCount");
 	},
-    getUserRouteCount() {
-        return Session.get("userRouteCount");
+    getUserRouteSavedRoutesCount() {
+        return Session.get("userRouteSavedRoutesCount");
     },
     getUserRatingsCount() {
         return Session.get("userRatingsCount");
@@ -191,6 +224,9 @@ Template.topTiles.helpers({
     },
     getNotHelpfulMessages() {
         return Session.get("notHelpfulMessages");
+    },
+    getTotalMessages() {
+        return Session.get("notHelpfulMessages") + Session.get("helpfulMessages");
     },
     getPreferredModeCar() {
         return Session.get("preferredModeCar");
@@ -255,12 +291,17 @@ Template.topTiles.helpers({
 
 });
 
-function updateRequestsChart() {
+var myLineChart = null;
+var chartOptions = null;
+
+
+function createRequestsChart() {
+    console.log("createRequestsChart");
         // Get the context of the canvas element we want to select
         var ctx  = document.getElementById("myChart").getContext("2d");    
 
         // Set the options
-        var options = {
+        var chartOptions = {
 
             ///Boolean - Whether grid lines are shown across the chart
             scaleShowGridLines: true,
@@ -309,70 +350,28 @@ function updateRequestsChart() {
 
         };
 
-        var options2 = {
-            //Boolean - Whether to show lines for each scale point
-            scaleShowLine: true,
-
-            //Boolean - Whether we show the angle lines out of the radar
-            angleShowLineOut: true,
-
-            //Boolean - Whether to show labels on the scale
-            scaleShowLabels: false,
-
-            // Boolean - Whether the scale should begin at zero
-            scaleBeginAtZero: true,
-
-            //String - Colour of the angle line
-            angleLineColor: "rgba(0,0,0,.1)",
-
-            //Number - Pixel width of the angle line
-            angleLineWidth: 1,
-
-            //String - Point label font declaration
-            pointLabelFontFamily: "'Arial'",
-
-            //String - Point label font weight
-            pointLabelFontStyle: "normal",
-
-            //Number - Point label font size in pixels
-            pointLabelFontSize: 10,
-
-            //String - Point label font colour
-            pointLabelFontColor: "#666",
-
-            //Boolean - Whether to show a dot for each point
-            pointDot: true,
-
-            //Number - Radius of each point dot in pixels
-            pointDotRadius: 3,
-
-            //Number - Pixel width of point dot stroke
-            pointDotStrokeWidth: 1,
-
-            //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
-            pointHitDetectionRadius: 20,
-
-            //Boolean - Whether to show a stroke for datasets
-            datasetStroke: true,
-
-            //Number - Pixel width of dataset stroke
-            datasetStrokeWidth: 2,
-
-            //Boolean - Whether to fill the dataset with a colour
-            datasetFill: true,
-
-            //String - A legend template
-            legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
-
+        var dataset = null;
+        var start = Session.get("start");
+        var end = Session.get("end");
+        if (start != null && end !=null){
+            dataset = UserRouteLogGraph.find({'createdDate' : { $gte : new Date(start), $lt: new Date(end) }}).fetch();
         }
-
-        var dataset = UserRouteLogGraph.find().fetch();
+        else if (start != null){
+            dataset = UserRouteLogGraph.find({'createdDate' : { $lt: new Date(end) }}).fetch();
+        }
+        else if (end !=null){
+            dataset = UserRouteLogGraph.find({'createdDate' : { $gte : new Date(start)}}).fetch();
+        }
+        else{
+            dataset = UserRouteLogGraph.find().fetch();
+        }
+        
         
         var labels = [];
         var points = [];
 
         _.forEach(dataset, function(point){
-            labels.push(point.date);
+            labels.push(point.date.getDate() + "-" + point.date.getMonth() + "-" + point.date.getFullYear());
             points.push(point.count);
         });
         
@@ -391,9 +390,58 @@ function updateRequestsChart() {
             }]
         };
     // draw the charts
-    var myLineChart = new Chart(ctx).Line(data, options);
+    myLineChart = new Chart(ctx).Line(data, chartOptions);
 };
 
+function updateRequestsChart(start, end){
+    console.log("updateRequestsChart");
+    var dataset = null;
+    if (start != null && end !=null){
+        dataset = UserRouteLogGraph.find({'date' : { $gte : new Date(start), $lt: new Date(end) }}).fetch();
+    }
+    else if (start != null){
+        dataset = UserRouteLogGraph.find({'date' : { $lt: new Date(end) }}).fetch();
+    }
+    else if (end !=null){
+        dataset = UserRouteLogGraph.find({'date' : { $gte : new Date(start)}}).fetch();
+    }
+    else{
+        dataset = UserRouteLogGraph.find().fetch();
+    }
+    
+    var labels = [];
+    var points = [];
+    console.log(dataset);
+    _.forEach(dataset, function(point){
+        console.log(new Date(point.date));
+        console.log(point.date);
+        labels.push(point.date.getDate() + "-" + point.date.getMonth() + "-" + point.date.getFullYear());
+        points.push(point.count);
+    });
+    
+    // Set the data
+    var data = {
+        labels: labels,
+        datasets: [{
+            label: "My First dataset",
+             fillColor: "rgba(151,187,205,0.2)",
+            strokeColor: "rgba(151,187,205,1)",
+            pointColor: "rgba(151,187,205,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(151,187,205,1)",
+            data: points
+        }]
+    };    
+    var myChartContent = document.getElementById('myChartContent');
+    myChartContent.innerHTML = '&nbsp;';
+    $('#myChartContent').append('<canvas id="myChart" width="800" height="300"><canvas>');
+
+    var ctx = $("#myChart").get(0).getContext("2d");        
+    myLineChart = new Chart(ctx).Line(data, chartOptions);    
+    
+}
+
 function random() {
-    return Math.floor((Math.random() * 100) + 1);
+    return Math.floor((Math.random() * 100) + 1);    
 };

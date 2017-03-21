@@ -21,6 +21,9 @@ shell-server@0.2.2            # Server-side component of the `meteor shell` comm
 insecure@1.0.7                # Allow all DB writes from clients (for prototyping)
 mizzao:bootstrap-3
 session
-chart:chart
 meteorhacks:aggregate
 random
+momentjs:moment
+dangrossman:bootstrap-daterangepicker
+underscore
+chart:chart

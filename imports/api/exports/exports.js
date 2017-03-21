@@ -24,4 +24,8 @@ export const EventNotifications = new Mongo.Collection("EventNotifications", {
     idGeneration: 'MONGO'
 });
 
+export const UserTrip = new Mongo.Collection("UserTrip", { 
+    idGeneration: 'MONGO'
+});
+
 export const UserRouteLogGraph = new Mongo.Collection('UserRouteLogGraph');

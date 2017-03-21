@@ -16,7 +16,7 @@ Meteor.publish('UserRouteLogGraph', function usersPublication() {
       {$project : {
          year : {$year : "$createdDate"}, 
          month : {$month : "$createdDate"},
-         day : {$dayOfMonth : "$createdDate"}
+         day : {$dayOfMonth : "$createdDate"}         
       }},
       {$group : {
          _id : {year : "$year", month : "$month", day : "$day"}, 
@@ -25,7 +25,7 @@ Meteor.publish('UserRouteLogGraph', function usersPublication() {
       { $sort : { _id : 1 } }
     ]).forEach(function(graph_entry) {
         self.added('UserRouteLogGraph', Random.id(), {
-            date:  graph_entry._id.day + "-" + graph_entry._id.month + "-" + graph_entry._id.year,
+            date:  new Date (graph_entry._id.year + "-" + graph_entry._id.month + "-" + graph_entry._id.day),
             count: graph_entry.count
         });
     });
