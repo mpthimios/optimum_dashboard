@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Optimum Multimodal Dashboard</title>
+    <title>Optimum Persuasive Interventions Dashboard</title>
 
     <!-- Custom Theme Style -->
     <link href="css/custom.min.css" rel="stylesheet">
@@ -17,7 +17,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Optimum Multimodal Dashboard</span></a>
+              <a href="index.html" class="site_title"><span>Optimum Multimodal Dashboard</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -83,6 +83,16 @@
                 <!--span class="count_bottom"><i class="green">5% </i> From last Week</span-->
               </div>
               <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Male Users </span>
+                <div class="count">{{getMaleUsers}}</div>
+                <!--span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span-->
+              </div>
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Female Users </span>
+                <div class="count">{{getFemaleUsers}}</div>
+                <!--span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span-->
+              </div>
+              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
                 <span class="count_top"><i class="fa fa-clock-o"></i> Total Requests</span>
                 <div class="count">{{getUserRouteLogCount}}</div>
                 <!--span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> From last Week</span-->
@@ -96,23 +106,13 @@
                 <span class="count_top"><i class="fa fa-user"></i> Total User Ratings</span>
                 <div class="count">{{getUserRatingsCount}}</div>
                 <!--span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span-->
-              </div>              
-              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                <span class="count_top"><i class="fa fa-user"></i> Male Users </span>
-                <div class="count">{{getMaleUsers}}</div>
-                <!--span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span-->
-              </div>
-              <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                <span class="count_top"><i class="fa fa-user"></i> Female Users </span>
-                <div class="count">{{getFemaleUsers}}</div>
-                <!--span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span-->
-              </div>
+              </div>                            
             </div>
 
             <div class="row tile_count">
               {{#each arrayify getRequestsByCountry}}
                  <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                  <span class="count_top"><i class="fa fa-user"></i> # of Requests from: {{name}}</span>
+                  <span class="count_top"><i class="fa fa-user"></i> # of Requests for: {{name}}</span>
                   <div class="count">{{value}}</div>
                   <!--span class="count_bottom"><i class="green">5% </i> From last Week</span-->
                 </div>                    
@@ -218,7 +218,7 @@
 
             <div class="row tile_count">
               <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                <span class="count_top"><i class="fa fa-user"></i> Received Notifications</span>
+                <span class="count_top"><i class="fa fa-user"></i> Received complex events</span>
                 <div class="count">{{getNumberOfEventNotifications}}</div>
                 <!--span class="count_bottom"><i class="green">5% </i> From last Week</span-->
               </div>
@@ -347,7 +347,7 @@
                 <img src="images/img.jpg" alt="..." class="img-circle profile_img">
               </div-->
               <div class="profile_info">
-                <span>Welcome to the Multimodal Optimum Dashboard</span>
+                <span>Welcome to the Optimum Persuasive Interventions Dashboard</span>
                 <!--h2>User</h2-->
               </div>
             </div>
