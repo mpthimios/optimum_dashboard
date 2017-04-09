@@ -1,0 +1,38 @@
+<template name="cep">
+  
+	<div class="row tile_count">
+      <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"><i class="fa fa-user"></i> Received complex events</span>
+        <div class="count">{{getNumberOfEventNotifications}}</div>
+        <!--span class="count_bottom"><i class="green">5% </i> From last Week</span-->
+      </div>
+      <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"><i class="fa fa-clock-o"></i> Notified Users</span>
+        <div class="count">{{getNumberOfNotifiedUsers}}</div>
+        <!--span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> From last Week</span-->
+      </div>              
+    </div>
+
+    <div class="row">
+	      <div class="col-md-12 col-sm-12 col-xs-12">
+	        <div class="dashboard_graph">
+
+	          <div class="row x_title">
+	            <div class="col-md-6">
+	              <h3>Map of Cep Events <small></small></h3>
+	            </div>                    
+	          </div>
+	        </div>
+	       
+	          <div class="map-container" style="height: 500px;">
+			    {{#unless geolocationError}}
+			      {{> googleMap name="map" options=mapOptions}}
+			    {{else}}
+			      Geolocation failed: {{geolocationError}}
+			    {{/unless}}
+			  </div>
+	      
+	    </div>
+	</div>
+	  
+</template>

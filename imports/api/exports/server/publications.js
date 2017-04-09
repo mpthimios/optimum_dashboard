@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { OptimumUsers } from '../exports.js';
 import { UserRouteLog } from '../exports.js';
 import { UserRouteLogGraph } from '../exports.js';
+import { EventNotifications } from '../exports.js';
 //import { userRouteLogCount } from '../exports.js';
 
 
@@ -31,4 +32,7 @@ Meteor.publish('UserRouteLogGraph', function usersPublication() {
     });
     return UserRouteLogGraph.find();
 }); 
- 
+
+Meteor.publish('EventNotifications', function usersPublication() {
+  return EventNotifications.find({}, {'event.location' : 1});
+});

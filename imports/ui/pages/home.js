@@ -1,11 +1,11 @@
-import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
+import { FlowRouter } from 'meteor/kadira:flow-router';
+import { $ } from 'meteor/jquery';
 
-import './index.html';
+import './home.html';
 
-import { OptimumUsers } from '../imports/api/exports/exports.js';
-import { UserRouteLogGraph } from '../imports/api/exports/exports.js';
+import { OptimumUsers } from '../../api/exports/exports.js';
+import { UserRouteLogGraph } from '../../api/exports/exports.js';
 
 // Template.dashboard.onCreated(function indexOnCreated() {
 // 	// self.subscribe('analysisById',id,{
@@ -181,7 +181,7 @@ var updateData = function(start, end){
 }
 
 
-Template.topTiles.onCreated(function() {
+Template.home.onCreated(function() {
 
 	let self = this;
     
@@ -209,7 +209,7 @@ Template.topTiles.onCreated(function() {
     
 });
 
-Template.topTiles.helpers({
+Template.home.helpers({
 	getUserCount() {
 		return Session.get("userCount");        
 	},
