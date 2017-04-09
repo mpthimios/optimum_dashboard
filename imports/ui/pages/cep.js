@@ -84,11 +84,13 @@ Template.cep.helpers({
       //         scale: 5
       //       }
 
-      //     });
-
-      var latLng = Geolocation.latLng();
+      //     });	  
       // Initialize the map once we have the latLng.
-      if (GoogleMaps.loaded() && latLng) {
+      if (GoogleMaps.loaded()) {
+      	// eventNotification = EventNotifications.find({},{sort: {'datatime': -1}, limit: 1}).fetch();	  
+      	// console.log(eventNotification);
+      	// var latLng = new google.maps.LatLng(parseFloat(eventNotification.event.location[1]), parseFloat(eventNotification.event.location[0]));
+        var latLng = new google.maps.LatLng(-34, 151)
         return {
           center: new google.maps.LatLng(latLng.lat, latLng.lng),
           zoom: MAP_ZOOM
