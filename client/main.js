@@ -6,5 +6,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import '/imports/startup/client';
 
 Meteor.startup(() => {
-  GoogleMaps.load({ v: '3', key: 'AIzaSyDhvh_iswjNa3Gf19_ctf6Jd2ZucbXbxJQ'});
+  GoogleMaps.load({v: '3', key: 'AIzaSyCnFyuZyNXy_X8J1RrZIrJcKfsqx8H4vSU'});
+  //
+  BlazeLayout.setRoot('body');
 });

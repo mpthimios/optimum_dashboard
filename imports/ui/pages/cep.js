@@ -1,6 +1,7 @@
+import { Meteor } from 'meteor/meteor';
+import { ReactiveVar } from 'meteor/reactive-var';
 import { Template } from 'meteor/templating';
-import { FlowRouter } from 'meteor/kadira:flow-router';
-import { $ } from 'meteor/jquery';
+import { Mongo } from 'meteor/mongo';
 import {EventNotifications} from '../../api/exports/exports.js';
 
 import './cep.html';
@@ -19,9 +20,8 @@ var updateData = function(start, end){
     });       
 }
  
-Template.cep.onCreated(function() {
+Template.cep.onRendered(function() {
 	let self = this;
-
 	self.subscribe('EventNotifications',{
 	      onStop: function(e) {
 	          if (e) {
@@ -32,17 +32,17 @@ Template.cep.onCreated(function() {
 
     updateData(null, null);
 
-
-    GoogleMaps.ready('map', function(map) {
+  // We can use the `ready` callback to interact with the map API once the map is ready.
+    GoogleMaps.ready('cepmap', function(map) {
       var marker;
 
       // Create and move the marker when latLng changes.
       self.autorun(function() {
         var lastPoint = null;
-        eventNotifications = EventNotifications.find({},{sort: {'datatime': -1}, limit: 100});
+        eventNotifications = EventNotifications.find({},{sort: {'datatime': -1}, limit: 50});
         console.log(eventNotifications);
         eventNotifications.forEach(function(obj){
-            console.log(obj.event.location);
+            //console.log(obj.event.location);
             var pointLatLng = new google.maps.LatLng(parseFloat(obj.event.location[1]), parseFloat(obj.event.location[0]));
             // If the marker doesn't yet exist, create it.
             var point = new google.maps.Marker({
@@ -56,43 +56,22 @@ Template.cep.onCreated(function() {
               point.setPosition(pointLatLng);
               map.instance.setCenter(point.getPosition());
         });
-
-        // Center and zoom the map view onto the current position.        
-        map.instance.setZoom(MAP_ZOOM);
       });
     });
 });
 
 Template.cep.helpers({
-	getNumberOfEventNotifications() {
+	 getNumberOfEventNotifications() {
         return Session.get("numberOfEventNotifications");
     },
     getNumberOfNotifiedUsers() {
         return Session.get("numberOfNotifiedUsers");
     },
-    geolocationError: function() {
-      var error = Geolocation.error();
-      return error && error.message;
-    },
     mapOptions: function() {
-      //console.log(EventNotifications);
-      // marker = new google.maps.Marker({
-      //       position: new google.maps.LatLng(latLng.lat, latLng.lng),
-      //       map: map.instance,
-      //       icon: {
-      //         path: google.maps.SymbolPath.CIRCLE,
-      //         scale: 5
-      //       }
-
-      //     });	  
-      // Initialize the map once we have the latLng.
+      // Initialize the map
       if (GoogleMaps.loaded()) {
-      	// eventNotification = EventNotifications.find({},{sort: {'datatime': -1}, limit: 1}).fetch();	  
-      	// console.log(eventNotification);
-      	// var latLng = new google.maps.LatLng(parseFloat(eventNotification.event.location[1]), parseFloat(eventNotification.event.location[0]));
-        var latLng = new google.maps.LatLng(-34, 151)
         return {
-          center: new google.maps.LatLng(latLng.lat, latLng.lng),
+          center: new google.maps.LatLng(51.508800670335646,-0.06943131238223),
           zoom: MAP_ZOOM
         };
       }

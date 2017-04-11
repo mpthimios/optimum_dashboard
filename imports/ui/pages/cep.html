@@ -22,16 +22,10 @@
 	              <h3>Map of Cep Events <small></small></h3>
 	            </div>                    
 	          </div>
-	        </div>
-	       
-	          <div class="map-container" style="height: 500px;">
-			    {{#unless geolocationError}}
-			      {{> googleMap name="map" options=mapOptions}}
-			    {{else}}
-			      Geolocation failed: {{geolocationError}}
-			    {{/unless}}
-			  </div>
-	      
+	        </div>	       	
+	          <div class="map-container">			    
+			      {{> googleMap name="cepmap" options=mapOptions}}			    
+			  </div>	      	
 	    </div>
 	</div>
 	  

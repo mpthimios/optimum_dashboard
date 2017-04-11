@@ -4307,3 +4307,23 @@ ul.notifications {
   border: 1px solid #e5e5e5; }
 
 /** /Dropzone.js **/
+
+html { height: 100% }
+body { height: 100%; margin: 0px; padding: 0px }
+
+.overlayMap {
+  position: absolute;
+  float: left;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  z-index: 60000000;
+  background: #1f1f1f;
+}
+
+.map-container {
+  width: 800px;  
+  height: 500px;
+  max-width:none;
+}

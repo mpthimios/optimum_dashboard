@@ -29,7 +29,7 @@ underscore@1.0.10
 chart:chart
 fortawesome:fontawesome
 kadira:flow-router
-meteor@1.6.1
 kadira:blaze-layout
-dburles:google-maps
-mdg:geolocation
+meteor@1.6.1
+dburles:google-maps@1.1.5
+mdg:geolocation@1.3.0
