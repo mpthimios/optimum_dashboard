@@ -6,6 +6,7 @@ import '../../ui/layouts/blank-layout.js';
 import '../../ui/layouts/main-layout.js';
 import '../../ui/pages/home.js';
 import '../../ui/pages/googlemaps-geolocation.js';
+import '../../ui/pages/pmessages.js';
 import '../../ui/pages/cep.js';
 
 FlowRouter.route('/', {
@@ -18,6 +19,12 @@ FlowRouter.route('/home', {
    action: function() {
 		BlazeLayout.render('mainLayout', {main: "home"});
 	} 
+});
+
+FlowRouter.route('/pmessages', {
+	action: function() {
+		BlazeLayout.render('mainLayout', {main: "pmessages"});
+	}   
 });
 
 FlowRouter.route('/cep', {

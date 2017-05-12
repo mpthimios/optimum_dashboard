@@ -4,11 +4,16 @@ import { OptimumUsers } from '../exports.js';
 import { UserRouteLog } from '../exports.js';
 import { UserRouteLogGraph } from '../exports.js';
 import { EventNotifications } from '../exports.js';
+import { OptimumMessages } from '../exports.js';
 //import { userRouteLogCount } from '../exports.js';
 
 
 Meteor.publish('OptimumUsers', function usersPublication() {
     return OptimumUsers.find();
+});
+
+Meteor.publish('OptimumMessages', function usersPublication() {
+    return OptimumMessages.find();
 });
 
 Meteor.publish('UserRouteLogGraph', function usersPublication() {
