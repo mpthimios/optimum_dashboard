@@ -30,17 +30,16 @@ Template.cep.onRendered(function() {
 	      }
 	  });
 
-    updateData(null, null);
+  updateData(null, null);
 
-  // We can use the `ready` callback to interact with the map API once the map is ready.
-    GoogleMaps.ready('cepmap', function(map) {
+   GoogleMaps.ready('cepmap', function(map) {
       var marker;
 
       // Create and move the marker when latLng changes.
       self.autorun(function() {
         var lastPoint = null;
-        eventNotifications = EventNotifications.find({},{sort: {'datatime': -1}, limit: 50});
-        console.log(eventNotifications);
+        eventNotifications = EventNotifications.find({},{sort: {'datatime': -1}, limit: 30});        
+        //console.log(eventNotifications);
         eventNotifications.forEach(function(obj){
             //console.log(obj.event.location);
             var pointLatLng = new google.maps.LatLng(parseFloat(obj.event.location[1]), parseFloat(obj.event.location[0]));
@@ -58,6 +57,7 @@ Template.cep.onRendered(function() {
         });
       });
     });
+    
 });
 
 Template.cep.helpers({

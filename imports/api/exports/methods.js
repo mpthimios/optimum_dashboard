@@ -339,5 +339,16 @@ Meteor.methods({
         });
         console.log(requestsPerCountry);
         return requestsPerCountry;
+    },
+
+    getEventNotifications: function(){
+        console.log("getEventNotifications");
+        let requestsByCountry  =null;
+        eventNotifications = EventNotifications.find({},{sort: {'datatime': -1}, limit: 30});
+        console.log(eventNotifications);
+        // eventNotifications.forEach(function(obj){
+        //     console.log(obj.event.location);            
+        // });
+        return "eventNotifications - thimios";
     }
 });

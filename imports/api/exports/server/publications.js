@@ -38,6 +38,7 @@ Meteor.publish('UserRouteLogGraph', function usersPublication() {
     return UserRouteLogGraph.find();
 }); 
 
-Meteor.publish('EventNotifications', function usersPublication() {
-  return EventNotifications.find({}, {'event.location' : 1});
+Meteor.publish('EventNotifications', function usersPublication() {  
+  return EventNotifications.find({},{sort: {'datatime': -1}, limit: 50});
 });
+

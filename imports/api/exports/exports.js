@@ -29,3 +29,4 @@ export const UserTrip = new Mongo.Collection("UserTrip", {
 });
 
 export const UserRouteLogGraph = new Mongo.Collection('UserRouteLogGraph');
+
