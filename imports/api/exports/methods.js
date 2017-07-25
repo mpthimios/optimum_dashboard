@@ -350,5 +350,33 @@ Meteor.methods({
         //     console.log(obj.event.location);            
         // });
         return "eventNotifications - thimios";
-    }
+    },
+	
+	deleteMessage: function(message) {
+    OptimumMessages.remove(message);
+	},
+	
+	addMessage: function(message) {
+    OptimumMessages.insert(message);
+	},
+	
+	editMessage: function(message) {
+    OptimumMessages.update(message.id, {$set: {
+	  persuasive_strategy: message.persuasive_strategy,
+	  target: message.target,
+	  parameters: message.parameters,
+	  message_text: message.message_text,
+	  message_text_german: message.message_text_german,
+	  message_text_slo: message.message_text_slo,
+	  context: message.context,
+	  number_of_times_sent: 0,
+	  number_of_successes: 0,
+    }});
+	
+	},
+	 findMessageById: function(id) {
+        let message = OptimumMessages.find({'id':id},{fields: {'message_text':1,"message_text_german":1}});        
+        return message;
+    },
+	
 });

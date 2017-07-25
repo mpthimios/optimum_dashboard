@@ -1,10 +1,116 @@
 <template name="pmessages">
-  
+	{{> pmessagesModalTemplate}}
+
+	<button type="button" class="btn btn-primary" id="add" style="padding:4px 8px;" ><i class="fa fa-plus-circle" style="font-size:1.45em"></i> Add Message</button>
 	<div class="row tile_count">
+		<table id="mytable" class="table table-hover table-bordered">
+			<thead>
+				<tr>
+					<th>Message</th>
+					<th>Strategy</th>
+					<th>Target</th>
+					<th>Context</th>
+					<th>Parameters</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{#each message}}
+						<tr>
+							<td>{{message_text}}</td>
+							<td>{{persuasive_strategy}}</td>
+							<td>{{target}}</td>
+							<td>{{context}}</td>
+							<td>{{parameters}}</td>
+							<td class="message" data-id="{{id}}"><button class="btn btn-success" data-toggle="tool" title="Edit Message" style="padding:4px 8px;" id="edit"><i class="fa fa-pencil-square-o" style="font-size:1.45em"></i> Edit</button> <button class="btn btn-danger" id="delete" data-toggle="tool" title="Delete Message" style="padding:4px 8px;"><i class="fa fa-trash-o" style="font-size:1.45em"></i> Delete</button></td>
+						</tr>
+				{{/each}}
+					
+			</tbody>
+		</table>
      
-	    {{#each message}}
-		    {{message_text}} <br/>
-		{{/each}}
 	</div>
+	
+	
 	  
+</template>
+
+<template name="pmessagesModalTemplate">
+  <div class="modal" id="messagesModal" role="dialog" tabindex="-1" aria-labelledby="gridSystemModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog"  role="document">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h4 class="modal-title" id ="gridSystemModalLabel">Message</h4>
+        </div>
+		
+        <div class="modal-body">
+		  <label for="comment">Message Text:</label>
+		  <textarea class="form-control" rows="3" id="message_text">{{message}}</textarea>
+		  <br>
+		  <label for="comment">Message Text in German:</label>
+		  <textarea class="form-control" rows="3" id="message_text_german">{{message.message_text_german}}</textarea>
+		  <br>
+		  <label for="comment">Message Text in Slovenian :</label>
+		  <textarea class="form-control" rows="3" id="message_text_slo">{{message.message_text_slo}}</textarea>
+		  <br>
+		  <label for="name">Persuasive Strategy:</label>
+		  <select class="form-control" id="strategy">
+			<option>suggestion</option>
+			<option>comparison</option>
+			<option>self-monitoring</option>
+		  </select>
+		  <br>
+		  <label for="name">Target</label>
+           <select class="form-control" id="target">
+			<option>walk</option>
+			<option>bicycle</option>
+			<option>BikeSharing</option>
+			<option>bikeride</option>
+			<option>pt</option>
+			<option>parkride</option>
+			<option>CarSharing</option>
+		  </select>
+		  <br>
+		  <label for="name">Context</label>
+          <select class="form-control" id="context">
+			<option>WalkingDistance</option>
+			<option>BikeDistance</option>
+			<option>TooManyTransportRoutes</option>
+			<option>NiceWeather</option>
+			<option>TooManyCarRoutes</option>
+			<option>emissionsIncreasing</option>
+			<option>Duration</option>
+		  </select>
+		  <br>
+		  <label for="name">Parameters</label>
+          <select class="form-control" id="parameters">
+			<option>no</option>
+			<option>PWalkSD</option>
+			<option>CO2Em</option>
+			<option>PBikeSD</option>
+			<option>PWalkGW</option>
+			<option>PBikeGW</option>
+			<option>PBikeSharingGW</option>
+			<option>PBikerideGW</option>
+			<option>PPtGW</option>
+			<option>MinWalked</option>
+			<option>MinBiked</option>
+			<option>MinBikeSharing</option>
+			<option>MinPT</option>
+			<option>MinBikeride</option>
+			<option>MinParkride</option>
+			<option>PReduceDriving</option>
+			<option>Pcar</option>
+		  </select>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="save">Save</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel">Cancel</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
 </template>
