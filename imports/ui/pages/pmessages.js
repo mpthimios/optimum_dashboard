@@ -81,9 +81,9 @@ Template.pmessages.onRendered(function(){
 	//this.$(".table").DataTable();
 	
 	$('#mytable').DataTable({
-		"ordering": false,
-		"searching": false,
-        "bPaginate":false,
+		//"ordering": false,
+		//"searching": false,
+        //"bPaginate":false,
 	
 	});
 });
@@ -149,18 +149,22 @@ Template.pmessagesModalTemplate.helpers({
     var messageId = Session.get('selectedMessageId');
 	console.log(messageId)
     
-    if (typeof messageId !== "undefined") {
-      //var message = OptimumMessages.findOne({_id:messageId});
-	  Meteor.call('findMessageById', messageId, function(error, result) {
-			if (error) {
-				alert(error);
-			}
-			else{
-				var message = result;
-			}
-	});
-	  console.log(message);
-      return message;
+    if (typeof messageId !== "undefined" &&  messageId !== null) {
+		
+	  var message = OptimumMessages.find({'id':messageId},{fields:{'message_text':1,'message_text_german':1,'message_text_slo':1,'target':1, 'context':1,'parameters':1,'persuasive_strategy':1}}).fetch();
+	  console.log(message.message_text)
+	  console.log("fdcg")
+	  $('#strategy').val(message[0].persuasive_strategy);
+	  $('#target').val(message[0].target);
+	  $('#context').val(message[0].context);
+	  $('#parameters').val(message[0].parameters);
+	  return {persuasive_strategy: message[0].persuasive_strategy,
+	  target: message[0].target,
+	  parameters: message[0].parameters,
+	  message_text: message[0].message_text,
+	  message_text_german: message[0].message_text_german,
+	  message_text_slo: message[0].message_text_slo,
+	  context: message[0].context}
     } else {
       return {persuasive_strategy: '',
 	  target: '',
