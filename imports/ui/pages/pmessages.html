@@ -127,7 +127,7 @@
 		
         <div class="modal-body">
 		  <label for="comment">Message Text:</label>
-		  <textarea class="form-control" rows="3" id="message_text">{{message}}</textarea>
+		  <textarea class="form-control" rows="3" id="message_text">{{message.message_text}}</textarea>
 		  <br>
 		  <label for="comment">Message Text in German:</label>
 		  <textarea class="form-control" rows="3" id="message_text_german">{{message.message_text_german}}</textarea>
@@ -137,9 +137,9 @@
 		  <br>
 		  <label for="name">Persuasive Strategy:</label>
 		  <select class="form-control" id="strategy">
-			<option>suggestion</option>
-			<option>comparison</option>
-			<option>self-monitoring</option>
+			<option value="suggestion">suggestion</option>
+			<option value="comparison">comparison</option>
+			<option value="self-monitoring">self-monitoring</option>
 		  </select>
 		  <br>
 		  <label for="name">Target</label>
