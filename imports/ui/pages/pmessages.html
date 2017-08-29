@@ -1,7 +1,85 @@
 <template name="pmessages">
 	{{> pmessagesModalTemplate}}
 
-	<button type="button" class="btn btn-primary" id="add" style="padding:4px 8px;" ><i class="fa fa-plus-circle" style="font-size:1.45em"></i> Add Message</button>
+	<div class="row tile_count">
+		
+	</div>
+	<div class="row">
+		<div class="col-md-7">
+			<div class="input-group">
+			   <input type="text" class="form-control" id="search_by_message_text" placeholder="Search by message text" />
+			   <span class="input-group-btn">
+			        <button type="button" class="btn btn-primary" style="display: inline-block;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+			   </span>
+			</div>
+		</div>
+		<div class="col-md-5">
+			<button type="button" class="btn btn-primary" id="add" style="padding:4px 8px; float:right" ><i class="fa fa-plus-circle" style="font-size:1.45em"></i> Add Message</button>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-8">
+			<h2 class="div-inline" style="margin-right:30px">Filter by attribute:</h2>
+			<div class="dropdown div-inline">
+			  <button id="strategy_filter" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Strategy
+			  <span class="caret"></span></button>
+			  <ul class="dropdown-menu">
+			  	{{#each persuasive_strategy_filter}}
+			  		<li><a href="#" class="strategy" id="{{.}}">{{.}}</a></li>
+			  	{{/each}}			    			    
+			  </ul>
+			</div>
+			<div class="dropdown div-inline">
+			  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Target
+			  <span class="caret"></span></button>
+			  <ul class="dropdown-menu">
+			    {{#each target_filter}}
+			  		<li><a href="#" class="target" id="{{.}}">{{.}}</a></li>
+			  	{{/each}}	
+			  </ul>
+			</div>
+			<div class="dropdown div-inline">
+			  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Context
+			  <span class="caret"></span></button>
+			  <ul class="dropdown-menu">
+			    {{#each context_filter}}
+			  		<li><a href="#" class="context" id="{{.}}">{{.}}</a></li>
+			  	{{/each}}
+			  </ul>
+			</div>
+			<div class="dropdown div-inline">
+			  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Parameters
+			  <span class="caret"></span></button>
+			  <ul class="dropdown-menu">
+			    {{#each parameter_filter}}
+			  		<li><a href="#" class="parameters" id="{{.}}">{{.}}</a></li>
+			  	{{/each}}
+			  </ul>
+			</div>
+			<div class="div-inline">
+			  <button class="btn btn-danger dropdown-toggle clear-filters" type="button" data-toggle="dropdown">Clear Filters</button>			  
+			</div>		
+		</div>
+	</div>
+	{{#if hasAttributes}}
+		<div class="row tile_count">
+			<div class="col-md-8"> 
+				<h2 class="div-inline">Active filter attributes:</h2>	
+				<div>			
+					{{#each attributes}}
+						<span class="tag_for_attribute label label-info ">
+						  <span>{{.}}</span>
+						  <a class="remove-filter-attribute" id="{{.}}"><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a> 
+						</span>
+					{{/each}}
+				</div>
+			</div>
+		</div>
+	{{/if}}
+	<div class="row tile_count">
+		<div class="col-md-8"> <h2>Number of messages: {{message_count}} </h2></div>
+	</div>
 	<div class="row tile_count">
 		<table id="mytable" class="table table-hover table-bordered">
 			<thead>
@@ -22,7 +100,10 @@
 							<td>{{target}}</td>
 							<td>{{context}}</td>
 							<td>{{parameters}}</td>
-							<td class="message" data-id="{{id}}"><button class="btn btn-success" data-toggle="tool" title="Edit Message" style="padding:4px 8px;" id="edit"><i class="fa fa-pencil-square-o" style="font-size:1.45em"></i> Edit</button> <button class="btn btn-danger" id="delete" data-toggle="tool" title="Delete Message" style="padding:4px 8px;"><i class="fa fa-trash-o" style="font-size:1.45em"></i> Delete</button></td>
+							<td class="message" data-id="{{id}}">
+								<button class="btn btn-success" data-toggle="tool" title="Edit Message" style="padding:4px 8px;" id="edit">
+									<i class="fa fa-pencil-square-o" style="font-size:1.45em"></i> Edit</button>
+								<button class="btn btn-danger" id="delete" data-toggle="tool" title="Delete Message" style="padding:4px 8px;"><i class="fa fa-trash-o" style="font-size:1.45em"></i> Delete</button></td>
 						</tr>
 				{{/each}}
 					
