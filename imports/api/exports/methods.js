@@ -378,5 +378,36 @@ Meteor.methods({
         let message = OptimumMessages.find({'id':id},{fields: {'message_text':1,"message_text_german":1}});        
         return message;
     },
+	getMessagesPerStrategy: function(){
+		let helpfulMessages = UserRoute.find({'route_feedback.helpful' : true}).fetch();
+        let routeIds = null;
+        
+        routeIdsComp = UserTrip.find({'body.additionalInfo.additionalProperties.strategy': 'comparison'}, {fields: {'requestId':1}}).fetch();
+		routeIdsSug = UserTrip.find({'body.additionalInfo.additionalProperties.strategy': 'suggestion'}, {fields: {'requestId':1}}).fetch();
+		routeIdsSelf = UserTrip.find({'body.additionalInfo.additionalProperties.strategy': 'self-monitoring'}, {fields: {'requestId':1}}).fetch();
+        
+        helpfullMessagesArray = _.pluck(helpfulMessages,"_id");
+        routeIdsArrayComp = _.pluck(routeIdsComp,"requestId");
+		routeIdsArraySug = _.pluck(routeIdsSug,"requestId");
+		routeIdsArraySelf = _.pluck(routeIdsSelf,"requestId");
+        comparison = 0;
+		suggestion = 0;
+		selfmonitoring = 0;
+		
+		
+        for (element in helpfullMessagesArray){
+			
+            if (_.indexOf(routeIdsArrayComp, element) >= 0){
+                comparison++;
+            }
+			if (_.indexOf(routeIdsArraySug, element) >= 0){
+                suggestion++;
+            }
+			if (_.indexOf(routeIdsArraySelf, element) >= 0){
+                selfmonitoring++;
+            }
+        }
+		return [comparison, suggestion, selfmonitoring];
+	}
 	
 });

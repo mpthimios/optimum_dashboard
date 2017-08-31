@@ -81,9 +81,9 @@ Template.pmessages.onRendered(function(){
 	//this.$(".table").DataTable();
 	
 	$('#mytable').DataTable({
-		//"ordering": false,
-		//"searching": false,
-        //"bPaginate":false,
+		"ordering": false,
+		"searching": false,
+        "bPaginate":false,
 	
 	});
 });

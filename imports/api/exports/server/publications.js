@@ -6,6 +6,8 @@ import { UserRouteLogGraph } from '../exports.js';
 import { EventNotifications } from '../exports.js';
 import { OptimumMessages } from '../exports.js';
 //import { userRouteLogCount } from '../exports.js';
+import { UserTrip } from '../exports.js';
+import { UserRoute } from '../exports.js';
 
 
 Meteor.publish('OptimumUsers', function usersPublication() {
@@ -41,4 +43,13 @@ Meteor.publish('UserRouteLogGraph', function usersPublication() {
 Meteor.publish('EventNotifications', function usersPublication() {  
   return EventNotifications.find({},{sort: {'datatime': -1}, limit: 50});
 });
+
+Meteor.publish('UserTrip', function usersPublication() {
+    return UserTrip.find({'body.additionalInfo.additionalProperties.message':{"$exists":true} },{fields:{'requestId':1, 'body.additionalInfo':1}});
+});
+
+Meteor.publish('UserRoute', function usersPublication() {
+    return UserRoute.find();
+});
+
 
