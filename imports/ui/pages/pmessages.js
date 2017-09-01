@@ -8,7 +8,7 @@ import 'datatables.net-bs/css/dataTables.bootstrap.css';
 
 import './pmessages.html';
 
-import { OptimumMessages } from '../../api/exports/exports.js';
+import { OptimumMessages } from '../../api/exports/exports.js'; 
 
 Session.setDefault("messagesFilter", {});
 Session.setDefault("strategies", null);
@@ -158,7 +158,7 @@ Template.pmessages.helpers({
     },
     'attributes': function(){    	
     	return Session.get("filterAttributes");
-    }
+    },
 });
 
 
@@ -315,19 +315,22 @@ Template.pmessagesModalTemplate.helpers({
     if (typeof messageId !== "undefined" &&  messageId !== null) {
 		
 	  var message = OptimumMessages.find({'id':messageId},{fields:{'message_text':1,'message_text_german':1,'message_text_slo':1,'target':1, 'context':1,'parameters':1,'persuasive_strategy':1}}).fetch();
+	  
 	  console.log(message.message_text)
 	  console.log("fdcg")
 	  $('#strategy').val(message[0].persuasive_strategy);
 	  $('#target').val(message[0].target);
 	  $('#context').val(message[0].context);
 	  $('#parameters').val(message[0].parameters);
+	  
 	  return {persuasive_strategy: message[0].persuasive_strategy,
 	  target: message[0].target,
 	  parameters: message[0].parameters,
 	  message_text: message[0].message_text,
 	  message_text_german: message[0].message_text_german,
 	  message_text_slo: message[0].message_text_slo,
-	  context: message[0].context}
+	  context: message[0].context,
+	  }
     } else {
       return {persuasive_strategy: '',
 	  target: '',

@@ -45,7 +45,7 @@ Meteor.publish('EventNotifications', function usersPublication() {
 });
 
 Meteor.publish('UserTrip', function usersPublication() {
-    return UserTrip.find({'body.additionalInfo.additionalProperties.message':{"$exists":true} },{fields:{'requestId':1, 'body.additionalInfo':1}});
+    return UserTrip.find({ },{fields:{'requestId':1, 'body.additionalInfo':1}});
 });
 
 Meteor.publish('UserRoute', function usersPublication() {

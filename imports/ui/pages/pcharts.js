@@ -245,7 +245,7 @@ function createRequestsChart() {
 		
 		
 	//Collect data for third graph
-	messagesIds = UserTrip.find({},{fields:{'body.additionalInfo.additionalProperties.messageId':1}}).fetch();
+	messagesIds = UserTrip.find({'body.additionalInfo.additionalProperties.messageId':{$exists:true}},{fields:{'body.additionalInfo.additionalProperties.messageId':1}}).fetch();
 	
     //messageIdsArray = _.pluck(messagesIds,"messageId");
 	BD=0
@@ -257,9 +257,10 @@ function createRequestsChart() {
 	messagesIds.forEach(function(m) {
 
 		var mes = m.body.additionalInfo.additionalProperties.messageId;
+		console.log(mes)
 		if (mes != undefined || mes != null){
 			
-            context = OptimumMessages.find({'id':m.body.additionalInfo.additionalProperties.messageId},{fields:{'context':1}}).fetch();
+            context = OptimumMessages.find({'id':mes},{fields:{'context':1}}).fetch();
 			context.forEach(function(c){
 			
 			if (c.context == "BikeDistance"){
