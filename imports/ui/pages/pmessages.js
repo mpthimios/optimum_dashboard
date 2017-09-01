@@ -10,6 +10,91 @@ import './pmessages.html';
 
 import { OptimumMessages } from '../../api/exports/exports.js';
 
+Session.setDefault("messagesFilter", {});
+Session.setDefault("strategies", null);
+Session.setDefault("targets", null);
+Session.setDefault("contexts", null);
+Session.setDefault("parameters", null);
+Session.setDefault("filterAttributes", null);
+
+function distinct(collection, field) {	
+  return _.uniq(collection.find({}, {
+    sort: {[field]: 1}, fields: {[field]: 1}
+  }).fetch().map(function (element){ return element[field]; }), true); 
+}
+
+function addMessagesFilter(query_field, query_text){
+	console.log("updating filters");
+	var currentQuery = Session.get("messagesFilter");
+	console.log(currentQuery);
+	if (currentQuery == null || !(query_field in currentQuery)){
+		if (currentQuery == null) currentQuery = {};
+		currentQuery[query_field] = {};
+		currentQuery[query_field]["$in"] = [query_text];
+		addFilterAttribute(query_text);
+	}
+	else{				
+		if (query_field in currentQuery){
+			if ($.inArray(query_text, currentQuery[query_field]["$in"]) < 0){
+				currentQuery[query_field]["$in"].push(query_text);
+				addFilterAttribute(query_text);
+			}
+		}		
+	}
+	Session.set("messagesFilter", currentQuery);
+}
+
+function textSearch(textToSearch){
+	var currentQuery = Session.get("messagesFilter");
+	console.log(currentQuery);
+	if (currentQuery == null) currentQuery = {};		
+	currentQuery={ message_text: { $regex: textToSearch } };
+	Session.set("messagesFilter", currentQuery);
+}
+
+function removeMessagesFilter(query_text){
+	console.log("deleting filters");
+	var currentQuery = Session.get("messagesFilter");
+	console.log(currentQuery);
+	if (currentQuery != null){
+		$.each( currentQuery, function( key, value ) {
+			if (value["$in"] !=null){
+				var index = value["$in"].indexOf(query_text);
+				if (index > -1 ){
+			  		currentQuery[key]["$in"].splice(index, 1);
+				}
+			}			
+		});				
+	}		
+	var filterAttributes = Session.get("filterAttributes");
+	var index = filterAttributes.indexOf(query_text);
+  	if (index > -1 ){
+  		filterAttributes.splice(index, 1);
+  	}
+  	Session.set("filterAttributes", filterAttributes);
+  	if (filterAttributes.length == 0){
+  		if (currentQuery["message_text"] ==null){
+  			Session.set("messagesFilter", null);
+  		}
+  		else{
+  			newCurrentQuery = {};
+  			newCurrentQuery["message_text"] = currentQuery["message_text"];
+  			Session.set("messagesFilter", newCurrentQuery); 
+  		}
+  	}
+  	else{
+  		Session.set("messagesFilter", currentQuery);
+  	}
+  	
+}
+
+function addFilterAttribute(attribute){
+	var filterAttributes = Session.get("filterAttributes");
+	if( filterAttributes == null) filterAttributes = [];
+	filterAttributes.push(attribute);
+	Session.set("filterAttributes", filterAttributes);
+	console.log(filterAttributes);
+}
 
 Template.pmessages.onCreated(function() {
 	
@@ -25,21 +110,54 @@ Template.pmessages.onCreated(function() {
             }
         },
         onReady: function(e) {
-
+        	Session.set("strategies_filter", distinct(OptimumMessages, 'persuasive_strategy'));
+        	Session.set("targets_filter", distinct(OptimumMessages, 'target'));
+        	Session.set("contexts_filter", distinct(OptimumMessages, 'context'));
+        	Session.set("parameters_filter", distinct(OptimumMessages, 'parameters'));
         },
-    });
-	
-	/*this.autorun(() => {
-    if (this.subscriptionsReady()) {
-      FlowRouter.go('OptimumMessages', OptimumMessages.find());
-    }
-  });*/
-    
+    });	
 });
 
 Template.pmessages.helpers({
-    'message': function(){
-        return OptimumMessages.find();
+    'message': function(){    	
+    	if (Session.get("messagesFilter") !=null){
+    		return OptimumMessages.find(Session.get("messagesFilter"));
+    	}
+    	else{
+    		return OptimumMessages.find();	
+    	}
+    },
+    'message_count': function(){
+    	if (Session.get("messagesFilter") !=null){
+    		return OptimumMessages.find(Session.get("messagesFilter")).count();
+    	}
+    	else{
+    		return OptimumMessages.find().count();	
+    	}
+    },
+    'persuasive_strategy_filter': function(){    	
+    	return Session.get("strategies_filter");
+    },
+    'target_filter': function(){    	
+    	return Session.get("targets_filter");
+    },
+    'context_filter': function(){    	
+    	return Session.get("contexts_filter");
+    },
+    'parameter_filter': function(){    	
+    	return Session.get("parameters_filter");
+    },
+    'hasAttributes': function(){    	
+    	if (Session.get("filterAttributes") !=null){
+    		return !((Session.get("filterAttributes")).length == 0);	
+    	}
+    	else{
+    		return false;
+    	}
+    	
+    },
+    'attributes': function(){    	
+    	return Session.get("filterAttributes");
     }
 });
 
@@ -80,12 +198,14 @@ Template.pmessages.onRendered(function(){
     });*/
 	//this.$(".table").DataTable();
 	
-	$('#mytable').DataTable({
-		"ordering": false,
-		"searching": false,
-        "bPaginate":false,
-	
-	});
+
+
+	// $('#mytable').DataTable({
+	// 	"ordering": false,
+	// 	"searching": false,
+ //        "bPaginate":false,
+	// });
+
 });
 
 
@@ -116,8 +236,6 @@ Template.pmessages.events({
 		swal("Cancelled", "Your message is safe :)", "error");
 	  }
 	});
-
-   
   },
   'click #add': function(e) {
     e.preventDefault();
@@ -141,7 +259,52 @@ Template.pmessages.events({
 	$('.tile_count').css("opacity","0.5");
 	$('#add').css("opacity","0.5");
 	$('.top_nav').css("opacity","0.5");
-  }
+  },
+  'click .strategy': function (e) {
+  	e.preventDefault();
+  	var name = e.currentTarget;
+  	console.log(name.getAttribute("id"));
+  	addMessagesFilter("persuasive_strategy", name.getAttribute("id"));
+    //console.log(name.getAttribute("id"));  	
+   },
+  'click .target': function (e) {
+  	e.preventDefault();
+  	var name = e.currentTarget;
+  	console.log(name.getAttribute("id"));
+  	addMessagesFilter("target", name.getAttribute("id"));
+    //console.log(name.getAttribute("id"));  	
+   },
+  'click .context': function (e) {
+  	e.preventDefault();
+  	var name = e.currentTarget;
+  	console.log(name.getAttribute("id"));
+  	addMessagesFilter("context", name.getAttribute("id"));
+    //console.log(name.getAttribute("id"));  	
+   },
+  'click .parameters': function (e) {
+  	e.preventDefault();
+  	var name = e.currentTarget;
+  	console.log(name.getAttribute("id"));
+  	addMessagesFilter("parameters", name.getAttribute("id"));
+    //console.log(name.getAttribute("id"));  	
+   },
+  'click .clear-filters': function (e) {
+  	e.preventDefault();
+  	Session.set("messagesFilter", null);
+  	Session.set("filterAttributes", null)
+   },
+  'click .remove-filter-attribute': function (e) {
+  	e.preventDefault();
+  	var name = e.currentTarget;
+  	console.log(name.getAttribute("id"));
+  	removeMessagesFilter(name.getAttribute("id"));
+   },
+  'keyup #search_by_message_text': function (e) {
+  	e.preventDefault();
+  	var name = e.target.value;  	
+  	console.log(name);  	
+  	textSearch(name);
+   }     
 });
 
 Template.pmessagesModalTemplate.helpers({
