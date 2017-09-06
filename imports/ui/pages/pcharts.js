@@ -210,12 +210,12 @@ function createRequestsChart() {
     
 	//Collect data for second graph
 	//Get messages per target
-	routeIdswalk = UserTrip.find({'body.additionalInfo.additionalProperties.mode': 'walk'}, {fields: {'requestId':1}}).fetch();
-	routeIdsbike = UserTrip.find({'body.additionalInfo.additionalProperties.mode': 'bike'}, {fields: {'requestId':1}}).fetch();
-	routeIdspt = UserTrip.find({'body.additionalInfo.additionalProperties.mode': 'pt'}, {fields: {'requestId':1}}).fetch();
-	routeIdscar = UserTrip.find({'body.additionalInfo.additionalProperties.mode': 'car'}, {fields: {'requestId':1}}).fetch();
-	routeIdsbikeSharing = UserTrip.find({'body.additionalInfo.additionalProperties.mode': 'bikeSharing'}, {fields: {'requestId':1}}).fetch();
-	routeIdsbikeRide = UserTrip.find({'body.additionalInfo.additionalProperties.mode': 'bike&ride'}, {fields: {'requestId':1}}).fetch();
+	routeIdswalk = UserTrip.find({'body.additionalInfo.additionalProperties.mode': 'walk', 'body.additionalInfo.additionalProperties.messageId':{$ne:null}}, {fields: {'requestId':1}}).fetch();
+	routeIdsbike = UserTrip.find({'body.additionalInfo.additionalProperties.mode': 'bicycle', 'body.additionalInfo.additionalProperties.messageId':{$ne:null}}, {fields: {'requestId':1}}).fetch();
+	routeIdspt = UserTrip.find({'body.additionalInfo.additionalProperties.mode': 'pt', 'body.additionalInfo.additionalProperties.messageId':{$ne:null}}, {fields: {'requestId':1}}).fetch();
+	routeIdscar = UserTrip.find({'body.additionalInfo.additionalProperties.mode': 'car', 'body.additionalInfo.additionalProperties.messageId':{$ne:null}}, {fields: {'requestId':1}}).fetch();
+	routeIdsbikeSharing = UserTrip.find({'body.additionalInfo.additionalProperties.mode': 'bikeSharing', 'body.additionalInfo.additionalProperties.messageId':{$ne:null}}, {fields: {'requestId':1}}).fetch();
+	routeIdsbikeRide = UserTrip.find({'body.additionalInfo.additionalProperties.mode': 'bike&ride', 'body.additionalInfo.additionalProperties.messageId':{$ne:null}}, {fields: {'requestId':1}}).fetch();
         
     
     routeIdsArraywalk = _.pluck(routeIdswalk,"requestId");
@@ -257,7 +257,7 @@ function createRequestsChart() {
 	messagesIds.forEach(function(m) {
 
 		var mes = m.body.additionalInfo.additionalProperties.messageId;
-		console.log(mes)
+		//console.log(mes)
 		if (mes != undefined || mes != null){
 			
             context = OptimumMessages.find({'id':mes},{fields:{'context':1}}).fetch();
