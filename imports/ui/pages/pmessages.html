@@ -19,7 +19,7 @@
 	</div>
 
 	<div class="row">
-		<div class="col-md-8">
+		<div class="col-md-12">
 			<h2 class="div-inline" style="margin-right:30px">Filter by attribute:</h2>
 			<div class="dropdown div-inline">
 			  <button id="strategy_filter" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Strategy
@@ -57,6 +57,13 @@
 			  	{{/each}}
 			  </ul>
 			</div>
+			<div id="reportrange" class=" dropdown div-inline">
+			  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+			   <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                        <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+			  </button>
+			  
+			</div>
 			<div class="div-inline">
 			  <button class="btn btn-danger dropdown-toggle clear-filters" type="button" data-toggle="dropdown">Clear Filters</button>			  
 			</div>		
@@ -77,7 +84,160 @@
 			</div>
 		</div>
 	{{/if}}
-	<div class="row tile_count">
+	<br>
+	<div class="row">
+		<div class="col-md-12">
+                <div class="x_panel">
+                 
+                  <div class="x_content">
+
+                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                      <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Persuasive Messages</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Graphs</a>
+                        </li>
+                      </ul>
+                      <div id="myTabContent" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                          <div class="row tile_count">
+							<div class="col-md-8"> <h2>Number of messages: {{message_count}} </h2></div>
+							</div>
+							<div class="row tile_count">
+								<table id="mytable" class="table table-hover table-bordered">
+									<thead>
+										<tr>
+											<th>Message</th>
+											<th>Strategy</th>
+											<th>Target</th>
+											<th>Context</th>
+											<th>Parameters</th>
+											<th>Attempts</th>
+											<th>Success</th>
+											<th>Actions</th>
+										</tr>
+									</thead>
+									<tbody>
+										{{#each message}}
+												<tr>
+													<td>{{message_text}}</td>
+													<td>{{persuasive_strategy}}</td>
+													<td>{{target}}</td>
+													<td>{{context}}</td>
+													<td>{{parameters}}</td>
+													<td>{{number_of_times_sent}}</td>
+													<td>{{number_of_successes}}</td>
+													<td class="message" data-id="{{id}}">
+														<button class="btn btn-success" data-toggle="tool" title="Edit Message" style="padding:4px 8px;" id="edit">
+															<i class="fa fa-pencil-square-o" style="font-size:1.45em"></i> Edit</button>
+														<button class="btn btn-danger" id="delete" data-toggle="tool" title="Delete Message" style="padding:4px 8px;"><i class="fa fa-trash-o" style="font-size:1.45em"></i> Delete</button></td>
+												</tr>
+										{{/each}}
+											
+									</tbody>
+								</table>
+							 
+							</div>
+						
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+							<div class="row">
+	
+								<div class="col-md-6 col-sm-6 col-xs-12">
+											<div class="x_panel">
+											  <div class="x_title">
+												<h2>Successful and not-successful attempts for the messages</h2>
+												<ul class="nav navbar-right panel_toolbox">
+												  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+												  </li>
+												  <li class="dropdown">
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+													
+												  </li>
+												  <li><a class="close-link"><i class="fa fa-close"></i></a>
+												  </li>
+												</ul>
+												<div class="clearfix"></div>
+											  </div>
+											  <div class="x_content" id="mybarChartDiv"><iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"></iframe>
+												<canvas id="mybarChart" height="280px" width="500px" style="width: 569px; height: 284px;"></canvas>
+											  </div>
+											</div>
+										  </div>
+								
+								<div class="col-md-6 col-sm-6 col-xs-12">
+											<div class="x_panel">
+											  <div class="x_title">
+												<h2>Messages per persuasive strategy</h2>
+												<ul class="nav navbar-right panel_toolbox">
+												  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+												  </li>
+												  <li class="dropdown">
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+													
+												  </li>
+												  <li><a class="close-link"><i class="fa fa-close"></i></a>
+												  </li>
+												</ul>
+												<div class="clearfix"></div>
+											  </div>
+											  <div class="x_content" id="mybarChartDiv2"><iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"></iframe>
+												<canvas id="mybarChart2" height="280px" width="500px" style="width: 569px; height: 284px;"></canvas>
+											  </div>
+											</div>
+										  </div>
+								
+								<div class="col-md-6 col-sm-6 col-xs-12">
+											<div class="x_panel">
+											  <div class="x_title">
+												<h2>Messages per target</h2>
+												<ul class="nav navbar-right panel_toolbox">
+												  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+												  </li>
+												  <li class="dropdown">
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+													
+												  </li>
+												  <li><a class="close-link"><i class="fa fa-close"></i></a>
+												  </li>
+												</ul>
+												<div class="clearfix"></div>
+											  </div>
+											  <div class="x_content" id="mybarChartDiv3"><iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"></iframe>
+												<canvas id="mybarChart3" height="280px" width="500px" style="width: 569px; height: 284px;"></canvas>
+											  </div>
+											</div>
+										  </div>
+										  
+								<div class="col-md-6 col-sm-6 col-xs-12">
+											<div class="x_panel">
+											  <div class="x_title">
+												<h2>Messages per persuasive context</h2>
+												<ul class="nav navbar-right panel_toolbox">
+												  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+												  </li>
+												  <li class="dropdown">
+													<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+													
+												  </li>
+												  <li><a class="close-link"><i class="fa fa-close"></i></a>
+												  </li>
+												</ul>
+												<div class="clearfix"></div>
+											  </div>
+											  <div class="x_content" id="mybarChartDiv4"><iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"></iframe>
+												<canvas id="mybarChart4" height="280px" width="500px" style="width: 569px; height: 284px;"></canvas>
+											  </div>
+											</div>
+										  </div>
+								</div>
+                        </div>
+                      </div>
+                    </div>
+					</div>
+
+                  </div>
+	<!--<div class="row tile_count">
 		<div class="col-md-8"> <h2>Number of messages: {{message_count}} </h2></div>
 	</div>
 	<div class="row tile_count">
@@ -114,6 +274,8 @@
 			</tbody>
 		</table>
      
+	</div>-->
+	</div>
 	</div>
 	
 	

@@ -1,8 +1,12 @@
 <template name="pcharts">
+
+	{{>dateSearch1}}
+	<div class="row">
+	
 	<div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Bar-chart  <small>showing the number of messages per persuasive strategy</small></h2>
+					<h2>Successful and not-successful attempts for the messages</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -15,7 +19,7 @@
                     </ul>
                     <div class="clearfix"></div>
                   </div>
-                  <div class="x_content"><iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"></iframe>
+                  <div class="x_content" id="mybarChartDiv"><iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"></iframe>
                     <canvas id="mybarChart" height="280px" width="500px" style="width: 569px; height: 284px;"></canvas>
                   </div>
                 </div>
@@ -24,7 +28,7 @@
 	<div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Bar-chart  <small>showing the number of messages per target</small></h2>
+					<h2>Messages per persuasive strategy</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -37,7 +41,7 @@
                     </ul>
                     <div class="clearfix"></div>
                   </div>
-                  <div class="x_content"><iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"></iframe>
+                  <div class="x_content" id="mybarChartDiv2"><iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"></iframe>
                     <canvas id="mybarChart2" height="280px" width="500px" style="width: 569px; height: 284px;"></canvas>
                   </div>
                 </div>
@@ -46,7 +50,7 @@
 	<div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Bar-chart  <small>showing the number of messages per persuasive context</small></h2>
+					<h2>Messages per target</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -59,7 +63,7 @@
                     </ul>
                     <div class="clearfix"></div>
                   </div>
-                  <div class="x_content"><iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"></iframe>
+                  <div class="x_content" id="mybarChartDiv3"><iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"></iframe>
                     <canvas id="mybarChart3" height="280px" width="500px" style="width: 569px; height: 284px;"></canvas>
                   </div>
                 </div>
@@ -68,7 +72,7 @@
 	<div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Bar-chart  <small>showing the successful and not-successful attempts for the messages </small></h2>
+					<h2>Messages per persuasive context</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -81,11 +85,34 @@
                     </ul>
                     <div class="clearfix"></div>
                   </div>
-                  <div class="x_content"><iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"></iframe>
+                  <div class="x_content" id="mybarChartDiv4"><iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"></iframe>
                     <canvas id="mybarChart4" height="280px" width="500px" style="width: 569px; height: 284px;"></canvas>
                   </div>
                 </div>
               </div>
+	</div>
 </template>
+
+<template name="dateSearch1">
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="dashboard_graph">
+
+                  <div class="row x_title">
+                    <div class="col-md-6">
+                      <h3>Persuasive Graphs <small></small></h3>
+                    </div>
+                    <div class="col-md-6">
+                      <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                        <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+                      </div>
+                    </div>
+                  </div>
+                </div>                
+              </div>
+            </div>                        
+          </template>
 		
 		
