@@ -1,0 +1,143 @@
+<template name="userstats">
+  
+  	<div class="row tile_count">     
+     {{>activityStats}}
+     {{>activities_charts}}
+	</div>	
+
+	<div class="row tile_count">     
+     {{>selfMonitoringChart}}
+	</div>
+
+	<div class="row tile_count">     
+     {{>comparisonChart}}
+	</div>
+
+	<div class="row tile_count">     
+     {{simulationChart}}
+	</div>
+	  
+</template>
+
+<template name="activityStats">
+        <div class="row tile_count">
+          <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Total Activities</span>
+            <div class="count">{{getActivitiesCount}}</div>
+            <!--span class="count_bottom"><i class="green">5% </i> From last Week</span-->
+          </div>
+          <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Average Number of Activities</span>
+            <div class="count">{{getAverageNumberOfActivitiesPerUser}}</div>
+            <!--span class="count_bottom"><i class="green">5% </i> From last Week</span-->
+          </div> 
+		  <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Max Number of Activities</span>
+            <div class="count">{{getMaxNumberOfActivitiesPerUser}}</div>
+            <!--span class="count_bottom"><i class="green">5% </i> From last Week</span-->
+          </div> 
+          <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Min Number of Activities</span>
+            <div class="count">{{getMinNumberOfActivitiesPerUser}}</div> 
+            <!--span class="count_bottom"><i class="green">5% </i> From last Week</span-->
+          </div>
+          <div class="dropdown div-inline">
+			  <button id="user_filter" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select User
+			  <span class="caret"></span></button>
+			  <ul class="dropdown-menu">
+			  	{{#each getUsers}}
+			  		<li><a href="#" class="user" id="{{.}}">{{.}}</a></li>
+			  	{{/each}}			    			    
+			  </ul>
+		  </div>
+		  <div class="div-inline selected_user">
+				-
+	      </div>
+        </div>        
+</template>
+
+
+<template name="comparisonChart">
+	<div class="row">
+	  <div class="col-md-12 col-sm-12 col-xs-12">
+	    <div class="dashboard_graph">
+
+	      <div class="row x_title">
+	        <div class="col-md-6">
+	          <h3>Comparison <small></small></h3>
+	        </div>                    
+	      </div>
+	    </div>
+	    <div class="dashboard_graph">
+	      <div id="placeholder33" style="height: 200px; display: none" class="demo-placeholder"></div>
+	      <div id="comparisonChartContent" style="width: 50%; height: 50%">
+	        <canvas id="comparisonChartCanvas" width="200" height="200"></canvas>
+	      </div>
+	    </div>
+	  </div>
+	</div>                        
+</template>
+
+<template name="selfMonitoringChart">
+	<div class="row">
+	  <div class="col-md-12 col-sm-12 col-xs-12">
+	    <div class="dashboard_graph">
+
+	      <div class="row x_title">
+	        <div class="col-md-6">
+	          <h3>Self Monitoring <small></small></h3>
+	        </div>                    
+	      </div>
+	    </div>
+	    <div class="dashboard_graph">
+	      <div id="placeholder33" style="height: 200px; display: none" class="demo-placeholder"></div>
+	      <div id="mySelfMonitoringChartContent" style="width: 50%;">
+	        <canvas id="selfMonitoringChartCanvas" width="200" height="200"></canvas>
+	      </div>
+	    </div>
+	  </div>
+	</div>                        
+</template>
+
+<template name="simulationChart">
+	<div class="row">
+	  <div class="col-md-12 col-sm-12 col-xs-12">
+	    <div class="dashboard_graph">
+
+	      <div class="row x_title">
+	        <div class="col-md-6">
+	          <h3>Simulation <small></small></h3>
+	        </div>                    
+	      </div>
+	    </div>
+	    <div class="dashboard_graph">
+	      <div id="placeholder33" style="height: 200px; display: none" class="demo-placeholder"></div>
+	      <div id="myChartContent" style="width: 50%; height: 50%">
+	        <canvas id="simulationChartCanvas" width="200" height="200"></canvas>
+	      </div>
+	    </div>
+	  </div>
+	</div>                        
+</template>
+
+<template name="activities_charts">
+
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="dashboard_graph">
+
+          <div class="row x_title">
+            <div class="col-md-6">
+              <h4>Number of Requests per Day</h4>
+            </div>                    
+          </div>
+        </div>
+        <div class="dashboard_graph">
+          <div id="placeholder33" style="height: 200px; display: none" class="demo-placeholder"></div>
+          <div id="myChartContent" style="width: 50%;">
+            <canvas id="myChart" width="800" height="200"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>                        
+  </template>

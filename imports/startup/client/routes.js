@@ -9,6 +9,7 @@ import '../../ui/pages/googlemaps-geolocation.js';
 import '../../ui/pages/pmessages.js';
 import '../../ui/pages/cep.js';
 import '../../ui/pages/pcharts.js';
+import '../../ui/pages/userstats.js';
 
 FlowRouter.route('/', {
     action: function() {
@@ -43,5 +44,11 @@ FlowRouter.route('/pcharts', {
 FlowRouter.route('/demo', {
 	action: function() {
 		BlazeLayout.render('blankLayout', {main: "demomap"});
+	}    
+});
+
+FlowRouter.route('/userstats', {
+	action: function() {
+		BlazeLayout.render('blankLayout', {main: "userstats"});
 	}    
 });
