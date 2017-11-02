@@ -373,10 +373,30 @@ function createRequestsChart() {
 		
 	// draw the charts
     //myLineChart = new Chart(ctx).Line(data, chartOptions);
-	myLineChart = new Chart(ctx).Bar(data4, chartOptions);
-	myBarChart2 = new Chart(ctx2).Bar(data, chartOptions);
-	myBarChart3 = new Chart(ctx3).Bar(data2, chartOptions);
-	myBarChart4 = new Chart(ctx4).Bar(data3, chartOptions);
+	//myLineChart = new Chart(ctx).Bar(data4, chartOptions);
+    myLineChart = new Chart(ctx, {
+                    type: "bar",
+                    data: data4,
+                    options: chartOptions
+                });
+	//myBarChart2 = new Chart(ctx2).Bar(data, chartOptions);
+    myBarChart2 = new Chart(ctx2, {
+                    type: "bar",
+                    data: data,
+                    options: chartOptions
+                });
+	//myBarChart3 = new Chart(ctx3).Bar(data2, chartOptions);
+    myBarChart3 = new Chart(ctx3, {
+                    type: "bar",
+                    data: data2,
+                    options: chartOptions
+                });
+	//myBarChart4 = new Chart(ctx4).Bar(data3, chartOptions);
+    myBarChart4 = new Chart(ctx4, {
+                    type: "bar",
+                    data: data3,
+                    options: chartOptions
+                });
 	
 };
 

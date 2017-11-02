@@ -391,7 +391,7 @@ function createRequestsChart() {
         var data = {
             labels: labels,
             datasets: [{
-                label: "My First dataset",
+                label: "Requests per Day",
                  fillColor: "rgba(151,187,205,0.2)",
                 strokeColor: "rgba(151,187,205,1)",
                 pointColor: "rgba(151,187,205,1)",
@@ -402,7 +402,12 @@ function createRequestsChart() {
             }]
         };
     // draw the charts
-    myLineChart = new Chart(ctx).Line(data, chartOptions);
+    //myLineChart = new Chart(ctx).Line(data, chartOptions);
+    myLineChart= new Chart(ctx , {
+                    type: "line",
+                    data: data,
+                    options: chartOptions
+                });
 };
 
 function updateRequestsChart(start, end){    
@@ -432,7 +437,7 @@ function updateRequestsChart(start, end){
     var data = {
         labels: labels,
         datasets: [{
-            label: "My First dataset",
+            label: "Requests per Day",
              fillColor: "rgba(151,187,205,0.2)",
             strokeColor: "rgba(151,187,205,1)",
             pointColor: "rgba(151,187,205,1)",
@@ -447,7 +452,12 @@ function updateRequestsChart(start, end){
     $('#myChartContent').append('<canvas id="myChart" width="800" height="300"><canvas>');
 
     var ctx = $("#myChart").get(0).getContext("2d");        
-    myLineChart = new Chart(ctx).Line(data, chartOptions);    
+    //myLineChart = new Chart(ctx).Line(data, chartOptions);    
+    myLineChart = new Chart(ctx , {
+                    type: "line",
+                    data: data,
+                    options: chartOptions
+                });
     
 }
 

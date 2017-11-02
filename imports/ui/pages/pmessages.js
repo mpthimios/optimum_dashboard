@@ -483,8 +483,8 @@ var chartOptions = null;
 function createRequestsChart() {
     console.log("createRequestsChart");
 	
-        // Get the context of the canvas element we want to select
-        var ctx  = document.getElementById("mybarChart").getContext("2d");
+    // Get the context of the canvas element we want to select
+    var ctx  = document.getElementById("mybarChart").getContext("2d");
 		var ctx2  = document.getElementById("mybarChart2").getContext("2d");  	
 		var ctx3  = document.getElementById("mybarChart3").getContext("2d");
 		var ctx4  = document.getElementById("mybarChart4").getContext("2d"); 
@@ -534,6 +534,10 @@ function createRequestsChart() {
 
             //Boolean - Whether to fill the dataset with a colour
             datasetFill: true,
+
+            "scales":{
+              "yAxes":[{"ticks":{"beginAtZero":true}}]
+            },
 
             //String - A legend template
             legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
@@ -605,27 +609,21 @@ function createRequestsChart() {
             labels: labels,
             datasets: [{
                 label: "Success",
-                fillColor: "rgba(50,205,50,0.2)",
-                strokeColor: "rgba(50,205,50,1)",
-                pointColor: "rgba(50,205,50,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(50,205,50,1)",
+                backgroundColor:["rgba(255, 99, 132, 0.2)","rgba(255, 159, 64, 0.2)","rgba(255, 205, 86, 0.2)"],
+                borderColor:["rgb(255, 99, 132)","rgb(255, 159, 64)","rgb(255, 205, 86)"],
+                borderWidth:1,
                 data: points
             },
 			{
-                label: "Failure",
-                fillColor: "rgba(151,187,205,0.2)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(151,187,205,1)",
+                label: "Not Success",
+                backgroundColor:["rgba(75, 192, 192, 0.2)","rgba(54, 162, 235, 0.2)","rgba(153, 102, 255, 0.2)"],
+                borderColor:["rgb(75, 192, 192)","rgb(54, 162, 235)","rgb(153, 102, 255)"],
+                borderWidth:1,
                 data: pointsf
             },
 			]
         };
-    
+
 	//Collect data for second graph
 	//Get messages per target
 	routeIdswalk = UserTrip.find({'body.additionalInfo.additionalProperties.mode': 'walk', 'body.additionalInfo.additionalProperties.messageId':{$ne:null}}, {fields: {'requestId':1}}).fetch();
@@ -651,12 +649,9 @@ function createRequestsChart() {
             labels: labels2,
             datasets: [{
                 label: "Data",
-                fillColor: "rgba(151,187,205,0.2)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(151,187,205,1)",
+                backgroundColor:["rgba(255, 99, 132, 0.2)","rgba(255, 159, 64, 0.2)","rgba(255, 205, 86, 0.2)", "rgb(255, 99, 132)","rgb(255, 159, 64)","rgb(255, 205, 86)"],
+                borderColor:["rgba(255, 99, 132, 0.2)","rgba(255, 159, 64, 0.2)","rgba(255, 205, 86, 0.2)", "rgb(255, 99, 132)","rgb(255, 159, 64)","rgb(255, 205, 86)"],
+                borderWidth:1,
                 data: points2
             }]
         };
@@ -709,40 +704,49 @@ function createRequestsChart() {
             labels: labels3,
             datasets: [{
                 label: "Data",
-                fillColor: "rgba(151,187,205,0.2)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(151,187,205,1)",
+                backgroundColor:["rgba(75, 192, 192, 0.2)","rgba(54, 162, 235, 0.2)","rgba(153, 102, 255, 0.2)"],
+                borderColor:["rgb(75, 192, 192)","rgb(54, 162, 235)","rgb(153, 102, 255)"],
+                borderWidth:1,
                 data: points3
             }]
         };
 		
 	//Graph 4
-	var labels4 = ['Successful', 'Not'];
+	var labels4 = ['Successful', 'Not Successful'];
     var points4 = [helpfulMessages.length, nothelpfulMessages.length];
 	
 	var data4 = {
             labels: labels4,
             datasets: [{
                 label: "Data",
-                fillColor: "rgba(151,187,205,0.2)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(151,187,205,1)",
+                "backgroundColor":["rgba(255, 99, 132, 0.2)","rgba(255, 159, 64, 0.2)"],
+                "borderColor":["rgb(255, 99, 132)","rgb(255, 159, 64)"],
                 data: points4
             }]
         };
 		
 	// draw the charts
-    //myLineChart = new Chart(ctx).Line(data, chartOptions);
-	myLineChart = new Chart(ctx).Bar(data4, chartOptions);
-	myBarChart2 = new Chart(ctx2).Bar(data, chartOptions);
-	myBarChart3 = new Chart(ctx3).Bar(data2, chartOptions);
-	myBarChart4 = new Chart(ctx4).Bar(data3, chartOptions);
+  myLineChart = new Chart(ctx, {
+                    type: "bar",
+                    data: data4,
+                    options: chartOptions
+                });
+  myBarChart2 = new Chart(ctx2, {
+                    type: "bar",
+                    data: data,
+                    options: chartOptions
+                });
+  myBarChart3 = new Chart(ctx3, {
+                    type: "bar",
+                    data: data2,
+                    options: chartOptions
+                });
+  myBarChart4 = new Chart(ctx4, {
+                    type: "bar",
+                    data: data3,
+                    options: chartOptions
+                });
+  
 	
 };
 
@@ -813,22 +817,16 @@ function updateCharts(start, end){
             labels: labels,
             datasets: [{
                 label: "Success",
-                fillColor: "rgba(50,205,50,0.2)",
-                strokeColor: "rgba(50,205,50,1)",
-                pointColor: "rgba(50,205,50,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(50,205,50,1)",
+                backgroundColor:["rgba(255, 99, 132, 0.2)","rgba(255, 159, 64, 0.2)","rgba(255, 205, 86, 0.2)"],
+                borderColor:["rgb(255, 99, 132)","rgb(255, 159, 64)","rgb(255, 205, 86)"],
+                borderWidth:1,
                 data: points
             },
 			{
                 label: "Failure",
-                fillColor: "rgba(151,187,205,0.2)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(151,187,205,1)",
+                backgroundColor:["rgba(75, 192, 192, 0.2)","rgba(54, 162, 235, 0.2)","rgba(153, 102, 255, 0.2)"],
+                borderColor:["rgb(75, 192, 192)","rgb(54, 162, 235)","rgb(153, 102, 255)"],
+                borderWidth:1,
                 data: pointsf
             },
 			]
@@ -844,7 +842,7 @@ function updateCharts(start, end){
 	routeIdsbikeRide = UserTrip.find({'body.additionalInfo.additionalProperties.mode': 'bike&ride', 'body.additionalInfo.additionalProperties.messageId':{$ne:null}, 'createdat' : { $gte : new Date(start), $lt: new Date(end) }}, {fields: {'requestId':1}}).fetch();
         
     
-    routeIdsArraywalk = _.pluck(routeIdswalk,"requestId");
+  routeIdsArraywalk = _.pluck(routeIdswalk,"requestId");
 	routeIdsArraybike = _.pluck(routeIdsbike,"requestId");
 	routeIdsArraypt = _.pluck(routeIdspt,"requestId");
 	routeIdsArraycar = _.pluck(routeIdscar,"requestId");
@@ -859,12 +857,9 @@ function updateCharts(start, end){
             labels: labels2,
             datasets: [{
                 label: "Data",
-                fillColor: "rgba(151,187,205,0.2)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(151,187,205,1)",
+                backgroundColor:["rgba(255, 99, 132, 0.2)","rgba(255, 159, 64, 0.2)","rgba(255, 205, 86, 0.2)", "rgb(255, 99, 132)","rgb(255, 159, 64)","rgb(255, 205, 86)"],
+                borderColor:["rgba(255, 99, 132, 0.2)","rgba(255, 159, 64, 0.2)","rgba(255, 205, 86, 0.2)", "rgb(255, 99, 132)","rgb(255, 159, 64)","rgb(255, 205, 86)"],
+                borderWidth:1,
                 data: points2
             }]
         };
@@ -917,12 +912,9 @@ function updateCharts(start, end){
             labels: labels3,
             datasets: [{
                 label: "Data",
-                fillColor: "rgba(151,187,205,0.2)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(151,187,205,1)",
+                backgroundColor:["rgba(75, 192, 192, 0.2)","rgba(54, 162, 235, 0.2)","rgba(153, 102, 255, 0.2)"],
+                borderColor:["rgb(75, 192, 192)","rgb(54, 162, 235)","rgb(153, 102, 255)"],
+                borderWidth:1,
                 data: points3
             }]
         };
@@ -930,7 +922,7 @@ function updateCharts(start, end){
 	//Graph 4
 	var successfull = comparison+suggestion+selfmonitoring;
 	var unsuccessfull= successfull+comparisonf+suggestionf+selfmonitoringf;
-	var labels4 = ['Successful', 'Not'];
+	var labels4 = ['Successful', 'Not Successful'];
     var points4 = [successfull, unsuccessfull];
 	
 	var data4 = {
@@ -969,10 +961,25 @@ function updateCharts(start, end){
 	var ctx4 = $("#mybarChart4").get(0).getContext("2d");  
 		
 	// draw the charts
-    //myLineChart = new Chart(ctx).Line(data, chartOptions);
-	myLineChart = new Chart(ctx).Bar(data4, chartOptions);
-	myBarChart2 = new Chart(ctx2).Bar(data, chartOptions);
-	myBarChart3 = new Chart(ctx3).Bar(data2, chartOptions);
-	myBarChart4 = new Chart(ctx4).Bar(data3, chartOptions);
+  myLineChart = new Chart(ctx, {
+                    type: "bar",
+                    data: data4,
+                    options: chartOptions
+                });
+  myBarChart2 = new Chart(ctx2, {
+                    type: "bar",
+                    data: data,
+                    options: chartOptions
+                });
+  myBarChart3 = new Chart(ctx3, {
+                    type: "bar",
+                    data: data2,
+                    options: chartOptions
+                });
+  myBarChart4 = new Chart(ctx4, {
+                    type: "bar",
+                    data: data3,
+                    options: chartOptions
+                });
 	
 };
