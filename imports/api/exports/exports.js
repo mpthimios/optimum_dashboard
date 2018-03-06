@@ -3,7 +3,7 @@ import { Mongo } from 'meteor/mongo';
 export const OptimumUsers = new Mongo.Collection("OptimumUsers", { 
     idGeneration: 'MONGO'
 });
-
+ 
 export const UserRouteLog = new Mongo.Collection("UserRouteLog", { 
     idGeneration: 'MONGO'
 });

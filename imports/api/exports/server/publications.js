@@ -14,6 +14,10 @@ Meteor.publish('OptimumUsers', function usersPublication() {
     return OptimumUsers.find();
 });
 
+Meteor.publish('OptimumUsersRewards', function usersPublication() {
+    return OptimumUsers.find({ "pilot": { $exists: true } });
+});
+
 Meteor.publish('OptimumMessages', function usersPublication() {
     return OptimumMessages.find();
 });

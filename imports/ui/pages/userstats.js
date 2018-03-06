@@ -2,7 +2,7 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { $ } from 'meteor/jquery';
 import Chart from 'chart.js';
-import { HTTP } from 'meteor/http'
+import { HTTP } from 'meteor/http';
 
 import './userstats.html';
 
@@ -221,7 +221,7 @@ function createComparisonChart(userActivities, allUsersActivities) {
 	    data: {
 	        labels: ["You", "Optimum Users"],
 	        datasets: [{
-	            label: 'Use of green transportation compared to other Optimum users',
+	            label: 'Use of green transportation \n compared to other Optimum users',
 	            data: [userGreenActivities/userAllActivities, allUsersGreenActivities/allUsersAllActivities],
 	            backgroundColor: [
 	                'rgba(255, 99, 132, 0.2)',
@@ -251,9 +251,9 @@ function createComparisonChart(userActivities, allUsersActivities) {
 		var myChart = new Chart(ctx, {
 	    type: 'horizontalBar',
 	    data: {
-	        labels: ["You", "Similar Users"],
+	        labels: [["You", ""], ["Similar", "Users"]],
 	        datasets: [{
-	            label: 'Use of green transportation compared to other Optimum users',
+	            label: 'Use of green transportation modes',
 	            data: [12, 19],
 	            backgroundColor: [
 	                'rgba(255, 99, 132, 0.2)',

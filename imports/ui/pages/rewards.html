@@ -1,0 +1,72 @@
+<template name="rewards">
+  	<div class="row tile_count">
+      <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"><i class="fa fa-user"></i> Rewards</span>
+        
+        <!--span class="count_bottom"><i class="green">5% </i> From last Week</span-->
+      </div>
+      
+    </div>
+
+    <div class="row">
+	      <div class="col-md-12 col-sm-12 col-xs-12">
+	        <div class="dashboard_graph">
+
+	          <div class="row x_title">
+	            <div class="col-md-6">
+	              <h3>Rewards for Optimum Users <small></small></h3>
+	                  <table class="table table-striped">
+		              	<thead>
+					      <tr>
+					        <th>User Id</th>
+					        <th>Pilot Area</th>
+					        <th>OptimumPoints</th>
+					        <th>Details</th>
+					      </tr>
+					    </thead>
+					    <tbody>
+					    	{{#each getUsersWithRewards}}
+						      <tr>
+						        <td>{{getUserId .}}</td>
+						        <td>{{getUserPilot .}}</td>
+						        <td>{{getUserTotalPoints .}}</td>
+						        <td><a href="#" class="view_details" id="{{getUserId .}}">view details</a></td>
+						      </tr>		              	
+				  			{{/each}}
+				  		</tbody>
+				  	</table>
+	            </div>                    
+
+	          </div>
+	        </div>	       	
+	          
+	    </div>
+	</div>
+	{{> calHeatMapModalTemplate}}
+</template>
+
+<template name="calHeatMapModalTemplate">   
+  <div class="modal fade" id="heatMapModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h4 class="modal-title">Points per Week</h4>
+        </div>
+
+        <div class="modal-body">        	
+        	<div id="calheatmap" style="width: 100%;">
+	            <canvas id="myChart" width="800" height="400"></canvas>
+	        </div>
+
+        </div>
+
+        <div class="modal-footer">
+           
+        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

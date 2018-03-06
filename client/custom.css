@@ -193,7 +193,7 @@
   position: absolute;
   display: -ms-flexbox;
   display: flex;
-  z-index: 9999; }
+  z-index: 1000; }
 
 .nav-md .container.body .col-md-3.left_col.menu_fixed {
   height: 100%;
@@ -4348,4 +4348,8 @@ body { height: 100%; margin: 0px; padding: 0px }
 
 .div-inline{
     display:inline-block;
+}
+
+.modal.fade .modal-dialog {
+  z-index: 9999;
 }

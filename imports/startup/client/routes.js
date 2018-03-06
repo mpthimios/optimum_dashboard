@@ -8,6 +8,7 @@ import '../../ui/pages/home.js';
 import '../../ui/pages/googlemaps-geolocation.js';
 import '../../ui/pages/pmessages.js';
 import '../../ui/pages/cep.js';
+import '../../ui/pages/rewards.js';
 import '../../ui/pages/pcharts.js';
 import '../../ui/pages/userstats.js';
 
@@ -32,6 +33,12 @@ FlowRouter.route('/pmessages', {
 FlowRouter.route('/cep', {
 	action: function() {
 		BlazeLayout.render('mainLayout', {main: "cep"});
+	}   
+});
+
+FlowRouter.route('/rewards', {
+	action: function() {
+		BlazeLayout.render('mainLayout', {main: "rewards"});
 	}   
 });
 

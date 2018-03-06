@@ -6,8 +6,9 @@ import { OptimumMessages } from './exports.js';
 import { EventNotifications } from './exports.js';
 import { UserTrip } from './exports.js';
 //import { wc } from 'which-country';
-const wc = require('which-country')
-
+const wc = require('which-country');
+import { HTTP } from 'meteor/http';
+var Future = Npm.require('fibers/future');
 
 Meteor.methods({ 
     userCount: function(start, end){        
@@ -394,7 +395,6 @@ Meteor.methods({
 		suggestion = 0;
 		selfmonitoring = 0;
 		
-		
         for (element in helpfullMessagesArray){
 			
             if (_.indexOf(routeIdsArrayComp, element) >= 0){
@@ -408,6 +408,122 @@ Meteor.methods({
             }
         }
 		return [comparison, suggestion, selfmonitoring];
-	}
-	
+	},
+    getUserPoints: function(user_id, location){
+        UK_credits_per_minute_per_mode = {
+            pt: 3,
+            max_pt_per_week: 600,
+            cycling: 5,
+            max_cycling_per_week: 500,
+            walking: 5,
+            max_walking_per_week: 500
+        };
+        SLO_credits_per_minute_per_mode = {
+            pt: 10,
+            max_pt_per_week: 2000,
+            cycling: 18,
+            max_cycling_per_week: 1850,
+            walking: 18,
+            max_walking_per_week: 1850,
+        };
+        AUT_credits_per_minute_per_mode = {
+            pt: 3,
+            max_pt_per_week: 600,
+            cycling: 5,
+            max_cycling_per_week: 500,
+            walking: 5,
+            max_walking_per_week: 500,
+        };
+        var user_location_credits;
+        if (location == "BRI"){
+            user_location_credits = UK_credits_per_minute_per_mode;
+        }
+        else if (location == "VIE"){
+            user_location_credits = AUT_credits_per_minute_per_mode;
+        }
+        else if (location == "LJU"){
+            user_location_credits = SLO_credits_per_minute_per_mode;
+        }
+        else{
+            user_location_credits = AUT_credits_per_minute_per_mode;
+        }
+        var user_data = {};
+        user_data["user_id"] = user_id;
+        user_data["location"] = location;
+        user_data["points"] = [];
+        start_date = new Date(2018, 0, 1);
+        current_date = new Date(2018, 0, 1);
+        now_date = new Date();
+        var days = 7;        
+        weeks = weeksBetween(start_date, now_date)
+        console.log(weeks);
+        let getPointsUrl = "http://traffic.ijs.si/NextPin/getPoints";
+        var response = new Future();
+        var responses = 0;
+        for (i = 0; i<= weeks; i++){
+            next_week = new Date(current_date.getTime());
+            next_week.setDate(current_date.getDate() + days);
+
+            from = (current_date.getTime());
+            if (i == weeks){
+                to = ((new Date()).getTime());
+            }
+            else{
+                to = (next_week.getTime());
+            }            
+            var options = {
+                params: { 
+                    from: from,
+                    to: to
+                },
+                headers: {
+                    'token': user_id
+                }
+            };
+
+            HTTP.call('GET', getPointsUrl, options, function (error, result) {
+              responses++;
+              if (error) {
+                    //console.log("error",error);
+                    //cb && cb(new Meteor.Error(500, 'There was an error processing your request.', error));
+              } else {
+                    json_result = JSON.parse(result.content);
+                    //public transport credits
+                    public_transport_credits = json_result.durations.public_transport * user_location_credits.pt;
+                    if (public_transport_credits > user_location_credits.max_pt_per_week){
+                        public_transport_credits = user_location_credits.max_pt_per_week;
+                    }
+                    cycling_credits = json_result.durations.bicycle * user_location_credits.cycling;
+                    if (cycling_credits > user_location_credits.max_cycling_per_week){
+                        cycling_credits = user_location_credits.max_cycling_per_week;
+                    }
+                    walking_credits = json_result.durations.walk * user_location_credits.walking;
+                    if (walking_credits > user_location_credits.max_walking_per_week){
+                        walking_credits = user_location_credits.max_walking_per_week;
+                    }
+                    total_week_credits = public_transport_credits + cycling_credits + walking_credits;
+                    user_data["points"].push({
+                        total_week_credits: total_week_credits,
+                        bicycle_credits: cycling_credits,
+                        walking_credits: walking_credits,
+                        public_transport_credits: public_transport_credits,
+                        from: json_result.dateRange[0].from,
+                        to: json_result.dateRange[0].to
+                    });
+              }
+              if (responses == weeks){
+                console.log("all_requests_received");                
+                response.return(user_data);
+              } 
+            });
+
+            current_date.setDate(current_date.getDate() + days);            
+        }
+        return response.wait();
+    }    
+    
 });
+
+function weeksBetween(d1, d2) {
+    return Math.round((d2 - d1) / (7 * 24 * 60 * 60 * 1000));
+}
