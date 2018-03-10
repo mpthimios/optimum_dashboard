@@ -411,28 +411,28 @@ Meteor.methods({
 	},
     getUserPoints: function(user_id, location){
         UK_credits_per_minute_per_mode = {
-            pt: 3,
-            max_pt_per_week: 600,
-            cycling: 5,
-            max_cycling_per_week: 500,
-            walking: 5,
-            max_walking_per_week: 500
+            pt: 2,
+            max_pt_per_week: 400,
+            cycling: 4,
+            max_cycling_per_week: 400,
+            walking: 4,
+            max_walking_per_week: 400
         };
         SLO_credits_per_minute_per_mode = {
-            pt: 10,
-            max_pt_per_week: 2000,
-            cycling: 18,
-            max_cycling_per_week: 1850,
-            walking: 18,
-            max_walking_per_week: 1850,
-        };
-        AUT_credits_per_minute_per_mode = {
             pt: 3,
             max_pt_per_week: 600,
-            cycling: 5,
-            max_cycling_per_week: 500,
-            walking: 5,
-            max_walking_per_week: 500,
+            cycling: 6,
+            max_cycling_per_week: 600,
+            walking: 6,
+            max_walking_per_week: 600,
+        };
+        AUT_credits_per_minute_per_mode = {
+            pt: 1.25,
+            max_pt_per_week: 250,
+            cycling: 2.5,
+            max_cycling_per_week: 250,
+            walking: 2.5,
+            max_walking_per_week: 250,
         };
         var user_location_credits;
         if (location == "BRI"){
@@ -448,28 +448,36 @@ Meteor.methods({
             user_location_credits = AUT_credits_per_minute_per_mode;
         }
         var user_data = {};
+        var days = 7;  
         user_data["user_id"] = user_id;
         user_data["location"] = location;
         user_data["points"] = [];
-        start_date = new Date(2018, 0, 1);
-        current_date = new Date(2018, 0, 1);
-        now_date = new Date();
-        var days = 7;        
-        weeks = weeksBetween(start_date, now_date)
+        start_date = new Date(Date.UTC(2017, 11, 31, 0, 0, 0));
+        
+        current_date = new Date(Date.UTC(2017, 11, 31, 0, 0, 0));
+        
+        start_date.setHours(20,0,0,0); 
+        current_date.setHours(20,0,0,0); 
+        now = new Date();
+        now_date = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0));
+        console.log(now_date);
+        weeks = weeksBetween(start_date, now_date);
         console.log(weeks);
         let getPointsUrl = "http://traffic.ijs.si/NextPin/getPoints";
         var response = new Future();
         var responses = 0;
-        for (i = 0; i<= weeks; i++){
-            next_week = new Date(current_date.getTime());
-            next_week.setDate(current_date.getDate() + days);
-
+        for (i = 0; i< weeks; i++){
+            
             from = (current_date.getTime());
-            if (i == weeks){
-                to = ((new Date()).getTime());
+            if (i == (weeks - 1)){ 
+                console.log("i == weeks");
+                to = (now_date.getTime());
             }
             else{
-                to = (next_week.getTime());
+                next_week = new Date(current_date.getTime());
+                next_week.setDate(next_week.getDate() + days);
+                next_week.setHours(23,59,59,999); 
+                to = (next_week.getTime());   
             }            
             var options = {
                 params: { 
@@ -481,6 +489,7 @@ Meteor.methods({
                 }
             };
 
+            //console.log (options);
             HTTP.call('GET', getPointsUrl, options, function (error, result) {
               responses++;
               if (error) {
@@ -525,5 +534,7 @@ Meteor.methods({
 });
 
 function weeksBetween(d1, d2) {
-    return Math.round((d2 - d1) / (7 * 24 * 60 * 60 * 1000));
+    var diff =(d2.getTime() - d1.getTime()) / 1000;
+    diff /= (60 * 60 * 24 * 7);
+    return Math.abs(Math.round(diff));
 }
