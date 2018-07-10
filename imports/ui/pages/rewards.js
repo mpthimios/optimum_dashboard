@@ -121,9 +121,9 @@ Template.rewards.helpers({
         total_walking_points = 0;
         for (entry in user["points"]){
             //console.log(user["points"][entry]);
-            total_bicycle_points += user["points"][entry]["bicycle_credits"]; 
+            total_walking_points += user["points"][entry]["walking_credits"]; 
         }
-        return total_bicycle_points;
+        return total_walking_points;
     },
     getUserPublicTransportPoints(user){
         total_public_transport_points = 0;
