@@ -20,7 +20,10 @@
 					      <tr>
 					        <th>User Id</th>
 					        <th>Pilot Area</th>
-					        <th>OptimumPoints</th>
+					        <th>Total Points</th>
+					        <th>Bicycle Points</th>
+					        <th>Walking Points</th>
+					        <th>Public Transport Points</th>
 					        <th>Details</th>
 					      </tr>
 					    </thead>
@@ -30,6 +33,9 @@
 						        <td>{{getUserId .}}</td>
 						        <td>{{getUserPilot .}}</td>
 						        <td>{{getUserTotalPoints .}}</td>
+						        <td>{{getUserBicylePoints .}}</td>
+						        <td>{{getUserWalkingPoints .}}</td>
+						        <td>{{getUserPublicTransportPoints .}}</td>
 						        <td><a href="#" class="view_details" id="{{getUserId .}}">view details</a></td>
 						      </tr>		              	
 				  			{{/each}}

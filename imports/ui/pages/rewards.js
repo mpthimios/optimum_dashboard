@@ -108,6 +108,30 @@ Template.rewards.helpers({
             total_points += user["points"][entry]["total_week_credits"]; 
         }
         return total_points;
+    },
+    getUserBicylePoints(user){
+        total_bicycle_points = 0;
+        for (entry in user["points"]){
+            //console.log(user["points"][entry]);
+            total_bicycle_points += user["points"][entry]["bicycle_credits"]; 
+        }
+        return total_bicycle_points;
+    },
+    getUserWalkingPoints(user){
+        total_walking_points = 0;
+        for (entry in user["points"]){
+            //console.log(user["points"][entry]);
+            total_bicycle_points += user["points"][entry]["bicycle_credits"]; 
+        }
+        return total_bicycle_points;
+    },
+    getUserPublicTransportPoints(user){
+        total_public_transport_points = 0;
+        for (entry in user["points"]){
+            //console.log(user["points"][entry]);
+            total_public_transport_points += user["points"][entry]["public_transport_credits"]; 
+        }
+        return total_public_transport_points;
     }
 });
 
